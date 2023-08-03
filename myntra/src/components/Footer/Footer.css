@@ -1,0 +1,146 @@
+#myntra-footer {
+  height: auto;
+  margin: 100px 0 20px 0;
+  width: 100%;
+  /* font-family: "Poppins", sans-serif; */
+  /* border: 1px solid black; */
+}
+
+#myntra-footer > #footer {
+  height: 100%;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  padding: 50px 0 20px 0;
+  border: 1px solid rgb(216, 216, 216);
+  /* margin-top: 30px; */
+}
+
+#myntra-footer > #footer > #online-shopping {
+  height: 90%;
+  width: 15%;
+  text-align: center;
+  /* border: 1px solid black; */
+}
+
+#myntra-footer > #footer > #online-shopping > h2,
+p {
+  text-align: left;
+  margin-left: 40px;
+  color: rgb(101, 101, 101);
+  line-height: 40px !important;
+}
+
+#myntra-footer > #footer > #online-shopping > h2 {
+  word-spacing: 1px;
+  letter-spacing: 2px;
+  line-height: 20px !important;
+}
+
+#myntra-footer > #footer > #online-shopping > #link > h2,
+p {
+  text-align: left;
+  margin-left: 40px;
+}
+
+#myntra-footer > #footer > #customer-policies {
+  height: 90%;
+  width: 15%;
+  /* border: 1px solid black; */
+}
+
+#myntra-footer > #footer > #customer-policies > h2 {
+  line-height: 25px;
+}
+
+#myntra-footer > #footer > #customer-policies > h2,
+p {
+  text-align: left;
+  margin-left: 40px;
+}
+
+#myntra-footer > #footer > #mobile {
+  height: 80%;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* border: 1px solid black; */
+}
+
+#myntra-footer > #footer > #mobile > h2 {
+  text-align: center;
+}
+
+#myntra-footer > #footer > #mobile > #playstore > #play {
+  height: auto;
+  width: 70%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#myntra-footer > #footer > #mobile > #playstore > #play > i {
+  color: rgb(82, 82, 82);
+}
+
+#myntra-footer > #footer > #mobile > #social-medias {
+  margin-top: 40px;
+}
+
+#myntra-footer > #footer > #mobile > #social-medias > #socials {
+  height: auto;
+  width: 75%;
+  display: flex;
+  justify-content: space-around;
+}
+
+#myntra-footer > #footer > #mobile > #social-medias > #socials > i {
+  color: rgb(82, 82, 82);
+  /* padding: 20px 0 !important; */
+  margin-top: 20px;
+  /* border: 1px solid black; */
+}
+
+#myntra-footer > #footer > #myntra-policies {
+  height: 90%;
+  width: 30%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  /* padding-top: 40px !important; */
+  /* border: 1px solid black; */
+}
+
+#myntra-footer > #footer > #myntra-policies > h2 {
+  text-align: center;
+}
+
+#myntra-footer > #footer > #myntra-policies > #policy-hundred,
+#policy-thirty {
+  height: 80px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#myntra-footer > #footer > #myntra-policies > #policy-hundred > div {
+  height: 45px;
+  width: 120px;
+}
+
+#myntra-footer > #footer > #myntra-policies > #policy-hundred > div > img {
+  height: 100%;
+  width: 100%;
+}
+
+#myntra-footer > #footer > #myntra-policies > #policy-thirty > div {
+  height: 45px;
+  width: 95px;
+}
+
+#myntra-footer > #footer > #myntra-policies > #policy-thirty > div > img {
+  height: 100%;
+  width: 100%;
+}
