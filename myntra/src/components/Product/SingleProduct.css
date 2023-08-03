@@ -1,0 +1,547 @@
+#product-path {
+  width: 96%;
+  margin: auto;
+  margin-top: 100px;
+  /* border: 1px solid black; */
+}
+
+#product-path > p {
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+}
+
+#product-body {
+  width: 96%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  /* border: 1px solid black; */
+}
+
+#product-body > #left {
+  height: 50%;
+  width: 57%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#product-body > #left > div {
+  height: 490px;
+  width: 360px;
+  overflow: hidden;
+  margin: 8px 2px;
+}
+
+#product-body > #left > div > img {
+  height: 100%;
+  width: 100%;
+  transition: 0.5s ease;
+}
+
+#product-body > #left > div > img:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+#product-body > #right {
+  width: 40%;
+  /* border: 1px solid black; */
+}
+
+#right > #div-one {
+  padding-bottom: 14px;
+  border-bottom: 1px solid #cfcfcf;
+}
+
+#right > #div-one > h2 {
+}
+
+#right > #div-one > p {
+  font-size: 18px;
+  color: #a2a2a2;
+  font-weight: 500;
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-one > #rating-button {
+  width: 35%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid #eaeaec;
+  border-radius: 3px;
+  padding: 0;
+  /* margin: 0; */
+  margin-top: 10px;
+}
+
+#right > #div-one > #rating-button:hover {
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+#right > #div-one > #rating-button > h4 {
+  padding: 0 5px 0 5px;
+  border-right: 2px solid #eaeaec;
+}
+
+#right > #div-one > #rating-button > p {
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-two {
+  padding-bottom: 25px;
+  border-bottom: 1px solid #cfcfcf;
+}
+#right > #div-two > #price {
+  padding-top: 5px;
+}
+
+#right > #div-two > #price > #main-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  /* border: 1px solid black; */
+}
+
+#right > #div-two > #price > #main-price > p,
+h3 {
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-two > #price > #size {
+  margin-top: 20px;
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px solid rgb(0, 0, 0); */
+}
+
+#right > #div-two > #price > #size > h5 {
+  color: #ff3e6c;
+  padding-top: 2px;
+}
+
+#right > #div-two > #price > #size-chart {
+  width: 62%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+#right > #div-two > #price > #size-chart > div {
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(134, 134, 134);
+}
+
+#right > #div-two > #price > #size-chart > div:hover {
+  border: 1px solid #ff3e6c;
+  cursor: pointer;
+}
+
+#right > #div-two > #add-to-cart {
+  width: 86%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 35px;
+  /* border: 1px solid black; */
+}
+
+#right > #div-two > #add-to-cart > button:nth-child(1) {
+  height: 55px;
+  width: 252px;
+  border: none;
+  background: none;
+  background-color: #ff3e6c;
+  color: white;
+  border-radius: 5px;
+}
+
+#right > #div-two > #add-to-cart > button:nth-child(1):hover {
+  background-color: #ff5179;
+  cursor: pointer;
+}
+
+#right > #div-two > #add-to-cart > button:nth-child(2) {
+  height: 55px;
+  width: 175px;
+  border: none;
+  background: none;
+  border-radius: 5px;
+  border: 1px solid rgb(175, 175, 175);
+}
+
+#right > #div-two > #add-to-cart > button:nth-child(2):hover {
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+#right > #div-three {
+  height: 250px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 25px;
+}
+
+#right > #div-three > #delivery {
+  width: 35%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 5px 0;
+  /* border: 1px solid black; */
+}
+
+#right > #div-three > #pincode > #pincode-input {
+  height: 45px;
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border: 1px solid rgb(168, 168, 168);
+}
+
+#right > #div-three > #pincode > #pincode-input > input {
+  height: 100%;
+  width: 65%;
+  border: none;
+  outline: none;
+}
+
+#right > #div-three > #pincode > #pincode-input > input::placeholder {
+  font-size: 15px;
+}
+
+#right > #div-three > #pincode > p {
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-three > #delivery-policy {
+  padding-top: 10px;
+  font-size: 15px;
+  color: rgb(36, 36, 36);
+}
+
+#right > #div-three > #delivery-policy > p {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 30px !important;
+  /* padding: 5px 0; */
+}
+
+#right > #div-four {
+  margin-top: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgb(185, 185, 185);
+}
+
+#right > #div-four > h4 {
+  margin: 10px 0 10px 0;
+}
+
+#right > #div-four > #best-price {
+  height: 150px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+#right > #div-four > #best-price > ul {
+  list-style-position: inside;
+}
+
+#right > #div-four > #best-price > ul > li {
+  padding: 4px 0px 4px 0px;
+  color: rgb(89, 89, 89);
+  font-size: 15px;
+}
+
+#right > #div-four > #cred {
+  height: 100px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+#right > #div-four > #cred > ul {
+  list-style-position: inside;
+  color: rgb(89, 89, 89);
+}
+
+#right > #div-four > #cred > ul > li {
+  font-size: 14px;
+}
+
+#right > #div-four > #emi {
+  height: 100px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+#right > #div-four > #emi > ul {
+  list-style-position: inside;
+  color: rgb(89, 89, 89);
+}
+
+#right > #div-four > #emi > ul > li {
+  font-size: 14px;
+}
+
+#right > #div-five {
+  margin-top: 15px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgb(185, 185, 185);
+}
+
+#right > #div-five > div > h3 {
+  font-size: 16px;
+  padding-top: 10px;
+}
+#right > #div-five > div > p {
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-five > #material-care > div > p {
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-five > #specifications > #details {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#right > #div-five > #specifications > #details > #left,
+#right {
+  width: 46%;
+}
+
+#right > #div-five > #specifications > #details > #left > div > span {
+  font-size: 13px;
+  color: rgb(72, 72, 72);
+}
+
+#right > #div-five > #specifications > #details > #left > div {
+  padding: 5px 0;
+  border-bottom: 1px solid rgb(197, 197, 197);
+}
+
+#right > #div-five > #specifications > #details > #right > div {
+  padding: 5px 0;
+  border-bottom: 1px solid rgb(197, 197, 197);
+}
+
+#right > #div-five > #specifications > #details > #right > div > span {
+  font-size: 13px;
+  color: rgb(72, 72, 72);
+}
+
+#right > #div-five > h5 {
+  padding-top: 12px;
+}
+
+#right > #div-six {
+  margin-top: 15px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgb(185, 185, 185);
+}
+
+#right > #div-six > #rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 17%;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+#right > #div-six > #whole-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#right > #div-six > #whole-rating > #left {
+  height: 110px;
+  width: 35%;
+  border-right: 1px solid grey;
+}
+
+#right > #div-six > #whole-rating > #right {
+  width: 40%;
+  margin-right: 80px;
+}
+
+#right > #div-six > #whole-rating > #right > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#right > #div-six > #whole-rating > #right > div > b {
+  color: grey;
+}
+
+#right > #div-six > #whole-rating > #right > div > i {
+  font-size: 10px;
+}
+
+#right > #div-six > #whole-rating > #right > div > .bar {
+  height: 5px;
+  width: 60%;
+  background-color: green;
+}
+
+#right > #div-six > #customers {
+  border-bottom: 1px solid grey;
+}
+
+#right > #div-six > #customers > #customer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 40%;
+  margin-top: 15px;
+}
+
+#right > #div-six > #customers > #customer > h3 {
+  font-size: 15px;
+}
+
+#right > #div-six > #customers > #measurement > div {
+  width: 62%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#right > #div-six > #customers > #measurement > div > b {
+  font-weight: 600;
+}
+
+#right > #div-six > #customers > #measurement > div > div {
+  width: 180px;
+  padding: 4px 0;
+}
+#right > #div-six > #customers > #measurement > div > div > p {
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-six > #customers > #measurement > div > div > .bar {
+  height: 5px;
+  width: 80%;
+  margin: 5px 0;
+  background-color: green;
+}
+
+#right > #div-six > #customers > h5 {
+  padding: 15px 0 20px 0;
+}
+
+#right > #div-seven {
+  margin-top: 15px;
+  border-bottom: 1px solid rgb(183, 183, 183);
+}
+
+#right > #div-seven > #photos {
+  width: 68%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  /* border: 1px solid black; */
+}
+
+#right > #div-seven > #photos > .photo {
+  height: 80px;
+  width: 80px;
+  /* border: 1px solid black; */
+}
+
+#right > #div-seven > #photos > .photo > img {
+  height: 100%;
+  width: 100%;
+}
+
+#right > #div-seven > .reviews {
+  margin: 10px 0 20px 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgb(197, 197, 197);
+}
+
+#right > #div-seven > .reviews > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#right > #div-seven > .reviews > span {
+  font-size: 15px;
+  font-weight: 400;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+#right > #div-seven > .reviews > div > .left,
+.right {
+  font-size: 14px;
+  color: rgb(108, 108, 108);
+}
+
+#right > #div-seven > .reviews > div > .left {
+  display: flex;
+}
+
+#right > #div-seven > .reviews > div > .left > p,
+span {
+  font-size: 13px;
+  margin: 5px 10px;
+}
+
+#right > #div-seven > .reviews > div > .left > p {
+  padding: 0 10px 0 0;
+  margin: 0;
+  border-right: 1px solid grey;
+}
+
+#right > #div-seven > .reviews > div > .left > span {
+  padding: 5px 0 0 0;
+}
+
+#right > #div-eight > h4,
+p,
+h5 {
+  padding: 8px 0;
+}
+
+#right > #div-eight > p {
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+}

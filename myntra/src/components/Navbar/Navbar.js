@@ -1,64 +1,30 @@
 import React from "react";
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 import myntraLogo from "./../../images/myntra-logo.jpg";
 
 const Navbar = () => {
+  const navigateTo = useNavigate();
+
   return (
     <>
       <div id="navbar">
         <div id="myntra-navbar">
-          <div id="logo">
-            <a href="./myntra-home.html">
-              <img
-                style={{ height: "100%", width: "100%" }}
-                src={myntraLogo}
-                alt="myntra"
-              />
-            </a>
+          <div id="logo" onClick={() => navigateTo("/")}>
+            <img
+              style={{ height: "100%", width: "100%" }}
+              src={myntraLogo}
+              alt="myntra"
+            />
           </div>
           <div id="nav-items">
+            <div onClick={() => navigateTo("/mens")}>Men</div>
+            <div onClick={() => navigateTo("/womens")}>Women</div>
+            <div onClick={() => navigateTo("/kids")}>Kids</div>
+            <div onClick={() => navigateTo("/home-living")}>Home & Living</div>
+            <div onClick={() => navigateTo("/beauty")}>Beauty</div>
             <div>
-              <a
-                style={{ textDecoration: "none", color: "rgb(79, 79, 79)" }}
-                href="./men.html"
-              >
-                Men
-              </a>
-            </div>
-            <div>
-              <a
-                // style="text-decoration: none; color: rgb(79, 79, 79)"
-                href="./women.html"
-              >
-                Women
-              </a>
-            </div>
-            <div>
-              <a
-                // style="text-decoration: none; color: rgb(79, 79, 79)"
-                href="./kids.html"
-              >
-                Kids
-              </a>
-            </div>
-            <div>
-              <a
-                // style="text-decoration: none; color: rgb(79, 79, 79)"
-                href="./home-living.html"
-              >
-                Home & Living
-              </a>
-            </div>
-            <div>
-              <a
-                // style="text-decoration: none; color: rgb(79, 79, 79)"
-                href="./beauty.html"
-              >
-                Beauty
-              </a>
-            </div>
-            <div>
-              Studio{" "}
+              Studio
               <sup style={{ fontSize: "10px", color: "#ff3f75" }}>NEW</sup>
             </div>
           </div>
