@@ -117,14 +117,17 @@
   display: flex;
   /* justify-content: space-evenly; */
   align-items: center;
-  /* border: 1px solid black; */
 }
 
 #nav-others > #profile > h3 {
+  height: 100%;
   font-size: 15px;
   font-weight: 500;
   color: rgb(252, 35, 140);
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid black; */
 }
 
 #nav-others > div {
@@ -152,7 +155,7 @@
   position: fixed;
   z-index: 1;
   right: 100px;
-  top: 78px;
+  top: 75px;
   /* width: 22%; */
   background-color: white;
   display: flex;
@@ -226,8 +229,8 @@
 .modal-box-2 {
   position: fixed;
   z-index: 1;
-  right: 140px;
-  top: 78px;
+  right: 110px;
+  top: 75px;
   width: auto;
   background-color: white;
   display: flex;

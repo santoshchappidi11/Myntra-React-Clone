@@ -1,12 +1,35 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./SingleProduct.css";
 import { AuthContexts } from "../Context/AuthContext";
+import { toast } from "react-hot-toast";
 
 const SingleProduct = () => {
   const { state } = useContext(AuthContexts);
   const [product, setProduct] = useState({});
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [isShowEditBtn, setIsShowEditBtn] = useState(false);
   const singleProd = useParams();
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (state?.currentUser?.email) {
+      setIsUserLoggedIn(true);
+      setCurrentUser(state?.currentUser);
+    } else {
+      setIsUserLoggedIn(false);
+      setCurrentUser({});
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (state?.currentUser?.role == "Seller") {
+      setIsShowEditBtn(true);
+    } else {
+      setIsShowEditBtn(false);
+    }
+  }, [state]);
 
   useEffect(() => {
     if (state?.products?.length) {
@@ -16,6 +39,27 @@ const SingleProduct = () => {
       setProduct(newProduct);
     }
   }, [state, singleProd]);
+
+  const addToCart = () => {
+    if (isUserLoggedIn) {
+      const allUsers = JSON.parse(localStorage.getItem("users"));
+
+      for (let i = 0; i < allUsers.length; i++) {
+        if (
+          allUsers[i].email == currentUser.email &&
+          allUsers[i].password == currentUser.password &&
+          currentUser.role == "Buyer"
+        ) {
+          allUsers[i].cart.push(product);
+          toast.success("Product added to cart!");
+          localStorage.setItem("users", JSON.stringify(allUsers));
+          break;
+        }
+      }
+    } else {
+      toast.error("Please login to add product to cart!");
+    }
+  };
 
   return (
     <>
@@ -91,20 +135,39 @@ const SingleProduct = () => {
               </div>
             </div>
             <div id="add-to-cart">
-              <button style={{ fontSize: "15px", fontWeight: "bold" }}>
-                <i
-                  class="fa-solid fa-bag-shopping fa-lg"
-                  style={{ paddingRight: "5px" }}
-                ></i>
-                ADD TO BAG
-              </button>
-              <button style={{ fontSize: "15px", fontWeight: "bold" }}>
-                <i
-                  class="fa-regular fa-heart fa-lg"
-                  style={{ paddingRight: "5px" }}
-                ></i>
-                WISHLIST
-              </button>
+              {!isShowEditBtn && (
+                <button
+                  style={{ fontSize: "15px", fontWeight: "bold" }}
+                  onClick={addToCart}
+                >
+                  <i
+                    class="fa-solid fa-bag-shopping fa-lg"
+                    style={{ paddingRight: "5px" }}
+                  ></i>
+                  ADD TO BAG
+                </button>
+              )}
+              {isShowEditBtn && (
+                <button
+                  style={{ fontSize: "15px", fontWeight: "bold" }}
+                  onClick={() => navigateTo(`/edit-product/${product.id}`)}
+                >
+                  <i
+                    class="fa-regular fa-pen-to-square fa-lg"
+                    style={{ paddingRight: "8px" }}
+                  ></i>
+                  EDIT PRODUCT
+                </button>
+              )}
+              {!isShowEditBtn && (
+                <button style={{ fontSize: "15px", fontWeight: "bold" }}>
+                  <i
+                    class="fa-regular fa-heart fa-lg"
+                    style={{ paddingRight: "5px" }}
+                  ></i>
+                  WISHLIST
+                </button>
+              )}
             </div>
           </div>
           <div id="div-three">

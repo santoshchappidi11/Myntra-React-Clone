@@ -1,20 +1,37 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
 import myntraLogo from "./../../images/myntra-logo.jpg";
+import { AuthContexts } from "../Context/AuthContext";
 
 const Navbar = () => {
+  const { state, Logout } = useContext(AuthContexts);
   const navigateTo = useNavigate();
   const [isShowSidePopup, setIsShowSidePopup] = useState(false);
   const [isShowLogoutPopup, setIsShowLogoutPopup] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    if (state?.currentUser?.email) {
+      setCurrentUser(state?.currentUser);
+    } else {
+      setCurrentUser({});
+    }
+  }, [state]);
 
   const openSidePopup = () => {
     setIsShowSidePopup(true);
-    setIsShowLogoutPopup(true);
   };
 
   const closeSidePopup = () => {
     setIsShowSidePopup(false);
+  };
+
+  const openLogoutPopup = () => {
+    setIsShowLogoutPopup(true);
+  };
+
+  const closeLogoutPopup = () => {
     setIsShowLogoutPopup(false);
   };
 
@@ -56,23 +73,36 @@ const Navbar = () => {
           </div>
 
           <div id="nav-others">
-            <div
-              id="profile"
-              onMouseOver={openSidePopup}
-              onMouseLeave={closeSidePopup}
-            >
-              <h3>Register/Login</h3>
+            <div id="profile">
+              {!currentUser.name && (
+                <h3 onMouseOver={openSidePopup} onMouseLeave={closeSidePopup}>
+                  Register/Login
+                </h3>
+              )}
 
-              {/* <h3>Santosh (seller)</h3> */}
+              {currentUser?.name && (
+                <h3
+                  onMouseOver={openLogoutPopup}
+                  onMouseLeave={closeLogoutPopup}
+                >
+                  {currentUser?.name.toUpperCase()}({currentUser?.role})
+                </h3>
+              )}
             </div>
-            <div id="wishlist">
-              <i class="fa-solid fa-heart"></i>
-              <span>Wishlist</span>
-            </div>
-            <div id="cart" onClick={() => navigateTo("/cart")}>
-              <i class="fa-solid fa-bag-shopping"></i>
-              <span>Bag</span>
-            </div>
+
+            {currentUser.role == "Buyer" && (
+              <div id="wishlist">
+                <i class="fa-solid fa-heart"></i>
+                <span>Wishlist</span>
+              </div>
+            )}
+
+            {currentUser.role == "Buyer" && (
+              <div id="cart" onClick={() => navigateTo("/cart")}>
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>Bag</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -110,27 +140,29 @@ const Navbar = () => {
       )}
       {/* -----------------------------logout-add-product-popup--------------------------------- */}
 
-      {/* {isShowLogoutPopup && (
+      {isShowLogoutPopup && (
         <div
           class="modal-box-2"
-          onMouseOver={openSidePopup}
-          onMouseLeave={closeSidePopup}
+          onMouseOver={openLogoutPopup}
+          onMouseLeave={closeLogoutPopup}
         >
           <div class="box-2" id="welcome">
             <h3>Hello,</h3>
-            <span>Santosh</span>
+            <span>{currentUser?.name?.toUpperCase()}</span>
             <div id="button" onClick={() => navigateTo("/profile")}>
               <button>Profile</button>
             </div>
-            <div id="button" onClick={() => navigateTo("/add-product")}>
-              <button>Add Product</button>
-            </div>
+            {currentUser?.role == "Seller" && (
+              <div id="button" onClick={() => navigateTo("/add-product")}>
+                <button>Add Product</button>
+              </div>
+            )}
             <div id="button">
-              <button>Logout</button>
+              <button onClick={Logout}>Logout</button>
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </>
   );
 };

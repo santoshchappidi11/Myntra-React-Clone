@@ -1,8 +1,97 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Cart.css";
 import offers from "./../../images/offers.JPG";
+import { AuthContexts } from "../Context/AuthContext";
+import { toast } from "react-hot-toast";
 
 const Cart = () => {
+  const { state } = useContext(AuthContexts);
+  const [currentUser, setCurrentUser] = useState({});
+  const [cartProducts, setCartProducts] = useState([]);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [cartTotalPrice, setCartTotalPrice] = useState(0);
+
+  useEffect(() => {
+    if (state?.currentUser?.email) {
+      setCurrentUser(state?.currentUser);
+      setIsUserLoggedIn(true);
+    } else {
+      setCurrentUser({});
+      setIsUserLoggedIn(false);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      const allUsers = JSON.parse(localStorage.getItem("users"));
+
+      for (let i = 0; i < allUsers.length; i++) {
+        if (
+          allUsers[i].email == currentUser.email &&
+          allUsers[i].password == currentUser.password
+        ) {
+          setCartProducts(allUsers[i].cart);
+        }
+      }
+    }
+  }, [currentUser, isUserLoggedIn]);
+
+  useEffect(() => {
+    if (cartProducts?.length) {
+      let totalPrice = 0;
+      for (let i = 0; i < cartProducts.length; i++) {
+        totalPrice = totalPrice + parseInt(cartProducts[i].price);
+      }
+      setCartTotalPrice(totalPrice);
+    } else {
+      setCartTotalPrice(0);
+    }
+  }, [cartProducts]);
+
+  const removeCartProduct = (index) => {
+    if (currentUser) {
+      const allUsers = JSON.parse(localStorage.getItem("users"));
+
+      for (let i = 0; i < allUsers.length; i++) {
+        if (
+          allUsers[i].email == currentUser.email &&
+          allUsers[i].password == currentUser.password
+        ) {
+          allUsers[i].cart.splice(index, 1);
+          setCartProducts(allUsers[i].cart);
+          localStorage.setItem("users", JSON.stringify(allUsers));
+          toast.success("Product removed!");
+          break;
+        }
+      }
+    }
+  };
+
+  const removeAllCartProducts = () => {
+    if (currentUser) {
+      if (cartProducts.length > 0) {
+        const allUsers = JSON.parse(localStorage.getItem("users"));
+
+        for (let i = 0; i < allUsers.length; i++) {
+          if (
+            allUsers[i].email == currentUser.email &&
+            allUsers[i].password == currentUser.password
+          ) {
+            allUsers[i].cart = [];
+            setCartProducts([]);
+            localStorage.setItem("users", JSON.stringify(allUsers));
+            toast.success(
+              "Your Products will deliver soon! Thank You for shopping..."
+            );
+            break;
+          }
+        }
+      } else {
+        toast.error("Please add some products to cart before checkout!");
+      }
+    }
+  };
+
   return (
     <>
       <div id="cart-body">
@@ -36,46 +125,57 @@ const Cart = () => {
           </div>
           <div id="left-four">
             <div id="products">
-              <div className="product">
-                <div className="product-img">
-                  <img
-                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2019/12/12/1aab2a18-6774-4f83-b292-fe301755a3351576102551329-1.jpg"
-                    alt="cart-productS"
-                  />
-                </div>
-                <div className="details">
-                  <h5>Huetrap</h5>
-                  <p>
-                    Men Beige &amp; Black Typography Printed Sustainable T-shirt
-                  </p>
-                  <span>Sold by: HUETRAP CLOTHING SJIT</span>
-                  <div className="buttons">
-                    <button>
-                      Size: S <i class="fa-solid fa-caret-down"></i>
-                    </button>
-                    <button>
-                      Qty: 1 <i class="fa-solid fa-caret-down"></i>
-                    </button>
-                  </div>
-                  <div className="price">
-                    <h5>₹318</h5>
-                    <span>₹1,099</span>
-                    <p>71% OFF</p>
-                  </div>
-                  <span>
-                    <b>
-                      <i class="fa-solid fa-rotate-left"></i> 14 days
-                    </b>
-                    return availabe
-                  </span>
-                </div>
-              </div>
-              <div className="cross">
-                <i
-                  class="fa-solid fa-xmark fa-2x"
-                  style={{ fontSize: "25px", paddingTop: "10px" }}
-                ></i>
-              </div>
+              {cartProducts?.length ? (
+                cartProducts.map((prod, index) => (
+                  <>
+                    <div className="product">
+                      <div className="product-img">
+                        <img src={prod.image} alt="cart-productS" />
+                      </div>
+                      <div className="details">
+                        <h5>{prod.name}</h5>
+                        <p>
+                          Men Beige &amp; Black Typography Printed Sustainable
+                          T-shirt
+                        </p>
+                        <span>Sold by: HUETRAP CLOTHING SJIT</span>
+                        <div className="buttons">
+                          <button>
+                            Size: S <i class="fa-solid fa-caret-down"></i>
+                          </button>
+                          <button>
+                            Qty: 1 <i class="fa-solid fa-caret-down"></i>
+                          </button>
+                        </div>
+                        <div className="price">
+                          <h5>₹{prod.price}</h5>
+                          <span>₹1,099</span>
+                          <p>71% OFF</p>
+                        </div>
+                        <span>
+                          <b>
+                            <i class="fa-solid fa-rotate-left"></i> 14 days
+                          </b>
+                          return availabe
+                        </span>
+                      </div>
+                    </div>
+                    <div className="cross">
+                      <i
+                        onClick={() => removeCartProduct(index)}
+                        class="fa-solid fa-xmark fa-2x"
+                        style={{
+                          fontSize: "25px",
+                          paddingTop: "10px",
+                          cursor: "pointer",
+                        }}
+                      ></i>
+                    </div>
+                  </>
+                ))
+              ) : (
+                <h3>No products in the cart!</h3>
+              )}
             </div>
           </div>
           <div id="left-five">
@@ -127,11 +227,13 @@ const Cart = () => {
             <div>
               <div>
                 <label>Total MRP</label>
-                <span>₹1,099</span>
+                <span>₹{cartTotalPrice}</span>
               </div>
               <div>
-                <label>Discount on MRP</label>
-                <span style={{ color: "rgb(7, 171, 7)" }}>-₹781</span>
+                <label>Discount on MRP(50%)</label>
+                <span style={{ color: "rgb(7, 171, 7)" }}>
+                  {-(cartTotalPrice / 2)}
+                </span>
               </div>
               <div>
                 <label>Coupon Discount</label>
@@ -143,10 +245,10 @@ const Cart = () => {
           <div id="amount">
             <div>
               <h4>Total Amount</h4>
-              <h4>₹318</h4>
+              <h4>₹{cartTotalPrice / 2}</h4>
             </div>
             <div>
-              <button>PLACE ORDER</button>
+              <button onClick={removeAllCartProducts}>PLACE ORDER</button>
             </div>
           </div>
         </div>
