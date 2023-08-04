@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./HomeKitchen.css";
+import { AuthContexts } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HomeKitchen = () => {
+  const { state } = useContext(AuthContexts);
+  const [productsData, setProductsData] = useState([]);
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (state?.products?.length) {
+      const newProducts = state?.products?.filter(
+        (prod) => prod.category == "Home&Kitchen"
+      );
+
+      setProductsData(newProducts);
+    } else {
+      setProductsData([]);
+    }
+  }, [state]);
+
   return (
     <>
       <div id="product-home-living">
@@ -193,20 +211,30 @@ const HomeKitchen = () => {
           </div>
         </div>
         <div id="right">
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/21779088/2023/2/1/69e45095-8c7f-4a6c-beab-df4d4dfb71601675224623690KitchenStorage1.jpg"
-              alt="home-living"
-            />
-            <h2>Milton</h2>
-            <p>Pro Lunch Tiffin 5 PCs</p>
-            <div class="price-structure">
-              <h3>Rs. 899</h3>
-              <span>Rs. 1999</span>
-              <h6>(50% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
+          {productsData?.length ? (
+            productsData.map((prod) => (
+              <div
+                className="product"
+                onClick={() => navigateTo(`/single-product/${prod.id}`)}
+              >
+                <div className="img">
+                  <img src={prod.image} alt="women" />
+                </div>
+                <div className="details">
+                  <h2>{prod.name}</h2>
+                  <h3>{prod.category}</h3>
+                  <div className="price-structure">
+                    <h3>Rs. {prod.price}</h3>
+                    <span>Rs. 1099</span>
+                    <h6>(69% OFF)</h6>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h2>No Products!</h2>
+          )}
+          {/* <div class="product">
             <a href="./single-product.html">
               <img
                 src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22888050/2023/4/25/8c71d659-4a75-4a19-86b7-568a5082bd451682405980805TowelSet1.jpg"
@@ -350,7 +378,7 @@ const HomeKitchen = () => {
               <span>Rs. 2699</span>
               <h6>(77% OFF)</h6>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

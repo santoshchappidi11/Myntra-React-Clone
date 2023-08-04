@@ -1,52 +1,55 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./SingleProduct.css";
+import { AuthContexts } from "../Context/AuthContext";
 
 const SingleProduct = () => {
+  const { state } = useContext(AuthContexts);
+  const [product, setProduct] = useState({});
+  const singleProd = useParams();
+
+  useEffect(() => {
+    if (state?.products?.length) {
+      const newProduct = state?.products?.find(
+        (prod) => prod.id == singleProd.id
+      );
+      setProduct(newProduct);
+    }
+  }, [state, singleProd]);
+
   return (
     <>
       <div id="product-path">
         <p>
-          Home / Clothing / Men Clothing / Tshirts /
-          <b>Roadster Tshirts {">"} More By Roadster</b>
+          Home / Clothing / Men Clothing / Tshirts / <b>{product?.category}</b>
         </p>
       </div>
       <div id="product-body">
         <div id="left">
           <div>
-            <img
-              src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2475811/2018/4/20/11524206887991-Roadster-Men-Tshirts-9291524206887825-1.jpg"
-              alt="product"
-            />
+            <img src={product?.image} alt="product" />
           </div>
           <div>
-            <img
-              src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2475811/2018/4/20/11524206887970-Roadster-Men-Tshirts-9291524206887825-2.jpg"
-              alt="product"
-            />
+            <img src={product?.image} alt="product" />
           </div>
           <div>
-            <img
-              src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2475811/2018/4/20/11524206887935-Roadster-Men-Tshirts-9291524206887825-3.jpg"
-              alt="product"
-            />
+            <img src={product?.image} alt="product" />
           </div>
           <div>
-            <img
-              src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2475811/2018/4/20/11524206887922-Roadster-Men-Tshirts-9291524206887825-4.jpg"
-              alt="product"
-            />
+            <img src={product?.image} alt="product" />
           </div>
           <div>
-            <img
-              src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2475811/2018/4/20/11524206887911-Roadster-Men-Tshirts-9291524206887825-5.jpg"
-              alt="product"
-            />
+            <img src={product?.image} alt="product" />
           </div>
         </div>
         <div id="right">
           <div id="div-one">
-            <h2>Roadster</h2>
-            <p>Men White Printed Cotton Pure Cotton T-shirt</p>
+            <h2>{product?.name?.toUpperCase()}</h2>
+            <p>
+              {" "}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              id felis sed risus auctor bibendum.
+            </p>
             <div id="rating-button">
               <h4>
                 4.1
@@ -65,7 +68,7 @@ const SingleProduct = () => {
           <div id="div-two">
             <div id="price">
               <div id="main-price">
-                <h2>₹359</h2>
+                <h2>₹{product?.price}</h2>
                 <p style={{ fontSize: "18px", color: "grey" }}>
                   MRP
                   <span style={{ textDecoration: "line-through" }}>₹599</span>
@@ -254,7 +257,11 @@ const SingleProduct = () => {
                 <h1 style={{ fontSize: "40px", fontWeight: "500" }}>
                   4.1
                   <i
-                    style={{ fontSize: "20px", color: "#14958f", margin:"0 0 0 10px" }}
+                    style={{
+                      fontSize: "20px",
+                      color: "#14958f",
+                      margin: "0 0 0 10px",
+                    }}
                     class="fa-solid fa-star"
                   ></i>
                 </h1>

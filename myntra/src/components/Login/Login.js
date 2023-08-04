@@ -1,9 +1,46 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { AuthContexts } from "../Context/AuthContext";
 
 const Login = () => {
   const navigateTo = useNavigate();
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const { Login } = useContext(AuthContexts);
+
+  const handleChangeValues = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+
+    if (loginData.email && loginData.password) {
+      const allUsers = JSON.parse(localStorage.getItem("users"));
+      let flag = false;
+      for (let i = 0; i < allUsers.length; i++) {
+        if (
+          allUsers[i].email == loginData.email &&
+          allUsers[i].password == loginData.password
+        ) {
+          flag = true;
+          Login(allUsers[i]);
+          // localStorage.setItem("current-user", JSON.stringify(allUsers[i]));
+          setLoginData({ email: "", password: "" });
+          toast.success("Login Successfull!");
+          navigateTo("/");
+          break;
+        }
+      }
+      if (flag == false) {
+        setLoginData({ email: "", password: "" });
+        toast.error("Invalid email or password!");
+      }
+    } else {
+      toast.error("Please fill all the details!");
+    }
+  };
 
   return (
     <>
@@ -16,18 +53,30 @@ const Login = () => {
             />
           </div>
           <div id="lower">
-            <form>
+            <form onSubmit={handleLoginSubmit}>
               <div id="header">
                 <h2>Login</h2>
               </div>
               <div id="email">
                 <div>
-                  <input placeholder="Email*" type="email" />
+                  <input
+                    placeholder="Enter Your Email*"
+                    type="email"
+                    name="email"
+                    value={loginData.email}
+                    onChange={handleChangeValues}
+                  />
                 </div>
               </div>
               <div id="password">
                 <div>
-                  <input placeholder="Password*" type="password" />
+                  <input
+                    placeholder="Enter Your Password*"
+                    type="password"
+                    name="password"
+                    value={loginData.password}
+                    onChange={handleChangeValues}
+                  />
                 </div>
               </div>
               <div id="terms">

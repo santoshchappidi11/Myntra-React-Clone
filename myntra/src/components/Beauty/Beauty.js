@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Beauty.css";
+import { AuthContexts } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Beauty = () => {
+  const { state } = useContext(AuthContexts);
+  const [productsData, setProductsData] = useState([]);
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (state?.products?.length) {
+      const newProducts = state.products.filter(
+        (prod) => prod.category == "Beauty"
+      );
+      setProductsData(newProducts);
+    } else {
+      setProductsData([]);
+    }
+  }, [state]);
+
   return (
     <>
       <div id="product-beauty">
@@ -193,20 +210,30 @@ const Beauty = () => {
           </div>
         </div>
         <div id="right">
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/13378338/2021/3/3/75fbc220-6dbf-4d5a-9a97-a12aa7df92e91614748147107-Clinique-Unisex-Face-Moisturisers-3941614748147012-1.jpg"
-              alt="beauty"
-            />
-            <h2>Clinique</h2>
-            <p>Moisture Surge 100H Hydrator</p>
-            <div class="price-structure">
-              <h3>Rs. 2635</h3>
-              <span>Rs. 3100</span>
-              <h6>(15% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
+          {productsData?.length ? (
+            productsData.map((prod) => (
+              <div
+                className="product"
+                onClick={() => navigateTo(`/single-product/${prod.id}`)}
+              >
+                <div className="img">
+                  <img src={prod.image} alt="women" />
+                </div>
+                <div className="details">
+                  <h2>{prod.name}</h2>
+                  <h3>{prod.category}</h3>
+                  <div className="price-structure">
+                    <h3>Rs. {prod.price}</h3>
+                    <span>Rs. 1099</span>
+                    <h6>(69% OFF)</h6>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h2>No Products!</h2>
+          )}
+          {/* <div class="product">
             <a href="./single-product.html">
               <img
                 src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/12974254/2023/1/24/1a0ac7fc-8757-472b-af57-874145dddc261674560059578-Livon-Set-of-2-Heat-Protect-Hair-Serum--Syska-Hair-Dryer-672-1.jpg"
@@ -350,7 +377,7 @@ const Beauty = () => {
               <span>Rs. 875</span>
               <h6>(50% OFF)</h6>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

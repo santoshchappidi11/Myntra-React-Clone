@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Kids.css";
+import { AuthContexts } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Kids = () => {
+  const { state } = useContext(AuthContexts);
+  const [productsData, setProductsData] = useState([]);
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (state?.products?.length) {
+      const newProducts = state?.products?.filter(
+        (prod) => prod.category == "Kids"
+      );
+      setProductsData(newProducts);
+    } else {
+      setProductsData([]);
+    }
+  }, [state]);
+
   return (
     <>
       <div id="product-kids">
@@ -201,20 +218,30 @@ const Kids = () => {
           </div>
         </div>
         <div id="right">
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/17137560/2022/2/11/4dd42ff2-7468-4bcc-a4a2-f0994b2d01751644582207769HellcatBoysRoundNeckBlendedCottonTshirt-ComboPackof51.jpg"
-              alt="kids"
-            />
-            <h2>HELLCAT</h2>
-            <p>Boys Pack of 5 T-shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 849</h3>
-              <span>Rs. 4995</span>
-              <h6>(83% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
+          {productsData?.length ? (
+            productsData.map((prod) => (
+              <div
+                className="product"
+                onClick={() => navigateTo(`/single-product/${prod.id}`)}
+              >
+                <div className="img">
+                  <img src={prod.image} alt="women" />
+                </div>
+                <div className="details">
+                  <h2>{prod.name}</h2>
+                  <h3>{prod.category}</h3>
+                  <div className="price-structure">
+                    <h3>Rs. {prod.price}</h3>
+                    <span>Rs. 1099</span>
+                    <h6>(69% OFF)</h6>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h2>No Products!</h2>
+          )}
+          {/* <div class="product">
             <a href="./single-product.html">
               <img
                 src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22797270/2023/5/15/2c4f57f3-192f-4a19-b9d5-5490f7eafe701684136617812-US-Polo-Assn-Kids-Boys-Tshirts-1741684136617292-1.jpg"
@@ -358,7 +385,7 @@ const Kids = () => {
               <span>Rs. 2099</span>
               <h6>(75% OFF)</h6>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
