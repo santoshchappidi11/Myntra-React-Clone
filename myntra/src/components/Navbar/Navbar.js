@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
 import myntraLogo from "./../../images/myntra-logo.jpg";
 
 const Navbar = () => {
   const navigateTo = useNavigate();
+  const [isShowSidePopup, setIsShowSidePopup] = useState(false);
+  const [isShowLogoutPopup, setIsShowLogoutPopup] = useState(false);
+
+  const openSidePopup = () => {
+    setIsShowSidePopup(true);
+    setIsShowLogoutPopup(true);
+  };
+
+  const closeSidePopup = () => {
+    setIsShowSidePopup(false);
+    setIsShowLogoutPopup(false);
+  };
 
   return (
     <>
@@ -46,19 +58,16 @@ const Navbar = () => {
           <div id="nav-others">
             <div
               id="profile"
-              onmouseenter="showPopUp()"
-              onmouseleave="hidePopUp()"
+              onMouseOver={openSidePopup}
+              onMouseLeave={closeSidePopup}
             >
-              <i class="fa-solid fa-user"></i>
-              <span>
-                <a href="./profile.html">Profile</a>
-              </span>
+              <h3>Register/Login</h3>
+
+              {/* <h3>Santosh (seller)</h3> */}
             </div>
             <div id="wishlist">
               <i class="fa-solid fa-heart"></i>
-              <span>
-                <a href="./wishlist.html">Wishlist</a>
-              </span>
+              <span>Wishlist</span>
             </div>
             <div id="cart" onClick={() => navigateTo("/cart")}>
               <i class="fa-solid fa-bag-shopping"></i>
@@ -67,6 +76,61 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* -----------------------------login/register-popup-------------------------------- */}
+
+      {isShowSidePopup && (
+        <div
+          class="modal-box"
+          onMouseOver={openSidePopup}
+          onMouseLeave={closeSidePopup}
+        >
+          <div class="box" id="welcome">
+            <h3>Welcome</h3>
+            <span>To access account and manage orders</span>
+            <div id="button" onClick={() => navigateTo("/login")}>
+              <button>LOGIN / SIGNUP</button>
+            </div>
+          </div>
+          <div class="box">
+            <span>Orders</span>
+            <span>Wishlist</span>
+            <span>Gift Cards</span>
+            <span>Contact Us</span>
+            <span>Myntra insider</span>
+          </div>
+          <div class="box">
+            <span>Myntra Credit</span>
+            <span>Coupons</span>
+            <span>Saved Cards</span>
+            <span>Saved VPA</span>
+            <span>Saved Addresses</span>
+          </div>
+        </div>
+      )}
+      {/* -----------------------------logout-add-product-popup--------------------------------- */}
+
+      {/* {isShowLogoutPopup && (
+        <div
+          class="modal-box-2"
+          onMouseOver={openSidePopup}
+          onMouseLeave={closeSidePopup}
+        >
+          <div class="box-2" id="welcome">
+            <h3>Hello,</h3>
+            <span>Santosh</span>
+            <div id="button" onClick={() => navigateTo("/profile")}>
+              <button>Profile</button>
+            </div>
+            <div id="button" onClick={() => navigateTo("/add-product")}>
+              <button>Add Product</button>
+            </div>
+            <div id="button">
+              <button>Logout</button>
+            </div>
+          </div>
+        </div>
+      )} */}
     </>
   );
 };

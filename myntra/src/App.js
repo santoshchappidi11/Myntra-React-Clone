@@ -13,6 +13,8 @@ import Register from "./components/Register/Register";
 import Profile from "./components/Profile/Profile";
 import Cart from "./components/Cart/Cart";
 import SingleProduct from "./components/Product/SingleProduct";
+import AddProduct from "./components/Product/AddProduct";
+import EditProduct from "./components/Product/EditProduct";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route exact path="/beauty" element={<Beauty />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/single-product" element={<SingleProduct />} />
+        <Route exact path="/add-product" element={<AddProduct />} />
+        <Route exact path="/edit-product" element={<EditProduct />} />
       </Routes>
       <Footer />
     </div>

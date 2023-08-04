@@ -204,13 +204,14 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 25px 0;
+  padding: 30px 0 25px 0;
 }
 
 #profile-body > #details > #overview > #right > #personal-details > div {
   width: 65%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   color: rgb(80, 80, 80);
   /* border: 1px solid black; */
 }
@@ -228,7 +229,7 @@
   padding: 0;
   margin: 0;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 #profile-body > #details > #overview > #right > #button {

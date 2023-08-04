@@ -1,0 +1,241 @@
+#add-product-body {
+  margin-top: 80px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fdefea;
+  /* border: 1px solid black; */
+}
+
+#add-product-body > #add-product-structure {
+  /* height: 600px; */
+  margin: 35px 0;
+  width: 30%;
+  /* border: 1px solid rgb(156, 156, 156); */
+}
+
+#add-product-body > #add-product-structure > #upper {
+  height: 160px;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#add-product-body > #add-product-structure > #upper > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+#add-product-body > #add-product-structure > #lower > form {
+  height: 65%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 15px;
+  background-color: white;
+  /* border: 1px solid red; */
+}
+
+#add-product-body > #add-product-structure > #lower > form > #header {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #header > h2 {
+  color: rgb(90, 90, 90);
+}
+
+#add-product-body > #add-product-structure > #lower > form > #header > span {
+  padding: 0 5px;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #name {
+  height: 38px;
+  margin: 10px 0;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #name > div {
+  height: 100%;
+  width: 100%;
+  /* border: 1px solid green; */
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #name
+  > div
+  > input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  border: 1px solid rgb(161, 159, 159);
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #name
+  > div
+  > input::placeholder {
+  padding: 0 0 0 10px;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #image {
+  height: 38px;
+  margin: 10px 0;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #image > div {
+  height: 100%;
+  width: 100%;
+  /* border: 1px solid green; */
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #image
+  > div
+  > input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  border: 1px solid rgb(161, 159, 159);
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #image
+  > div
+  > input::placeholder {
+  padding: 0 0 0 10px;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #price {
+  height: 38px;
+  margin: 10px 0;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #price > div {
+  height: 100%;
+  width: 100%;
+  /* border: 1px solid green; */
+  /* border: 1px solid rgb(161, 159, 159); */
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #price
+  > div
+  > input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  border: 1px solid rgb(161, 159, 159);
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #price
+  > div
+  > input::placeholder {
+  padding: 0 0 0 10px;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #category {
+  height: 38px;
+  margin: 10px 0;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #category > div {
+  height: 100%;
+  width: 100%;
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #category
+  > div
+  > select {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid rgb(161, 159, 159);
+}
+
+#add-product-body
+  > #add-product-structure
+  > #lower
+  > form
+  > #category
+  > div
+  > select
+  > option {
+  font-size: 16px;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #terms {
+  height: auto;
+  /* margin: 10px 0; */
+}
+
+#add-product-body > #add-product-structure > #lower > form > #terms > p {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  color: rgb(52, 52, 52);
+}
+
+#add-product-body > #add-product-structure > #lower > form > #button {
+  height: 38px;
+  margin: 10px 0;
+  width: 100%;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #button > button {
+  height: 100%;
+  width: 100%;
+  border: none;
+  background: none;
+  background-color: #ff3f75;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#add-product-body > #add-product-structure > #lower > form > #trouble {
+  height: auto;
+  /* margin: 10px 0; */
+}
+
+#add-product-body > #add-product-structure > #lower > form > #trouble > p {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  color: rgb(52, 52, 52);
+}
+
+#add-product-body > #add-product-structure > #lower > form > #trouble > p > b {
+  cursor: pointer;
+}

@@ -1,9 +1,8 @@
 #myntra-footer {
   height: auto;
-  margin: 100px 0 20px 0;
   width: 100%;
-  /* font-family: "Poppins", sans-serif; */
-  /* border: 1px solid black; */
+  /* margin: 100px 0 20px 0; */
+  background-color: rgb(250, 250, 250);
 }
 
 #myntra-footer > #footer {
@@ -12,8 +11,9 @@
   margin: auto;
   display: flex;
   justify-content: space-around;
+  align-items: flex-start;
   padding: 50px 0 20px 0;
-  border: 1px solid rgb(216, 216, 216);
+  /* border: 1px solid rgb(216, 216, 216); */
   /* margin-top: 30px; */
 }
 
@@ -38,10 +38,25 @@ p {
   line-height: 20px !important;
 }
 
+#myntra-footer > #footer > #online-shopping > #online > h2 {
+  padding: 0 0 0 10px;
+  margin: 0;
+}
+
+#myntra-footer > #footer > #online-shopping > #online > p {
+  padding: 0 0 0 40px;
+  margin: 0;
+}
+
 #myntra-footer > #footer > #online-shopping > #link > h2,
 p {
   text-align: left;
   margin-left: 40px;
+}
+
+#myntra-footer > #footer > #online-shopping > #link > p {
+  padding: 0 0 0 40px;
+  margin: 0;
 }
 
 #myntra-footer > #footer > #customer-policies {
@@ -52,6 +67,13 @@ p {
 
 #myntra-footer > #footer > #customer-policies > h2 {
   line-height: 25px;
+  padding: 0;
+  margin: 0;
+}
+
+#myntra-footer > #footer > #customer-policies > p {
+  padding: 0 0 0 40px;
+  margin: 0;
 }
 
 #myntra-footer > #footer > #customer-policies > h2,
@@ -78,6 +100,7 @@ p {
   width: 70%;
   display: flex;
   justify-content: space-evenly;
+  margin-top: 10px;
 }
 
 #myntra-footer > #footer > #mobile > #playstore > #play > i {
@@ -125,6 +148,11 @@ p {
   align-items: center;
 }
 
+#myntra-footer > #footer > #myntra-policies > #policy-hundred > p {
+  padding: 0;
+  margin: 0 0 0 10px;
+}
+
 #myntra-footer > #footer > #myntra-policies > #policy-hundred > div {
   height: 45px;
   width: 120px;
@@ -133,6 +161,12 @@ p {
 #myntra-footer > #footer > #myntra-policies > #policy-hundred > div > img {
   height: 100%;
   width: 100%;
+  object-fit: contain;
+}
+
+#myntra-footer > #footer > #myntra-policies > #policy-thirty > p {
+  padding: 0;
+  margin: 0 0 0 5px;
 }
 
 #myntra-footer > #footer > #myntra-policies > #policy-thirty > div {
@@ -143,4 +177,5 @@ p {
 #myntra-footer > #footer > #myntra-policies > #policy-thirty > div > img {
   height: 100%;
   width: 100%;
+  object-fit: contain;
 }
