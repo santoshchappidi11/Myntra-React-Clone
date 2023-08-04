@@ -60,11 +60,9 @@ const Navbar = () => {
                 <a href="./wishlist.html">Wishlist</a>
               </span>
             </div>
-            <div id="cart">
+            <div id="cart" onClick={() => navigateTo("/cart")}>
               <i class="fa-solid fa-bag-shopping"></i>
-              <span>
-                <a href="./cart.html">Bag</a>
-              </span>
+              <span>Bag</span>
             </div>
           </div>
         </div>
