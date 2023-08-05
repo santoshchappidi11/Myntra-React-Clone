@@ -1,7 +1,51 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./AddProduct.css";
+import { toast } from "react-hot-toast";
+import { AuthContexts } from "../Context/AuthContext";
+import { v4 as uuidv4 } from "uuid";
 
 const AddProduct = () => {
+  const { state, contextProducts } = useContext(AuthContexts);
+  // const [currentUser, setCurrentUser] = useState({});
+  const [addProductData, setAddProductData] = useState({
+    name: "",
+    image: "",
+    price: "",
+    category: "Men",
+  });
+
+  // useEffect(() => {
+  //   if (state?.currentUser?.email) {
+  //     setCurrentUser(state?.currentUser);
+  //   } else {
+  //     setCurrentUser({});
+  //   }
+  // }, [state]);
+
+  const handleChangeValues = (e) => {
+    setAddProductData({ ...addProductData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmitAddProduct = (e) => {
+    e.preventDefault();
+
+    if (
+      addProductData.name &&
+      addProductData.image &&
+      addProductData.price &&
+      addProductData.category
+    ) {
+      const allProducts = JSON.parse(localStorage.getItem("products")) || [];
+      let randomId = uuidv4();
+      addProductData["id"] = randomId;
+      allProducts.push(addProductData);
+      contextProducts(allProducts);
+      toast.success("Product added successfully!");
+    } else {
+      toast.error("Please fill all the fields!");
+    }
+  };
+
   return (
     <>
       <div id="add-product-body">
@@ -13,29 +57,51 @@ const AddProduct = () => {
             />
           </div>
           <div id="lower">
-            <form>
+            <form onSubmit={handleSubmitAddProduct}>
               <div id="header">
                 <h2>Add Product</h2>
               </div>
 
               <div id="name">
                 <div>
-                  <input placeholder="Product Name*" type="text" />
+                  <input
+                    placeholder="Product Name*"
+                    type="text"
+                    name="name"
+                    value={addProductData.name}
+                    onChange={handleChangeValues}
+                  />
                 </div>
               </div>
               <div id="image">
                 <div>
-                  <input placeholder="Product Image*" type="text" />
+                  <input
+                    placeholder="Product Image*"
+                    type="text"
+                    name="image"
+                    value={addProductData.image}
+                    onChange={handleChangeValues}
+                  />
                 </div>
               </div>
               <div id="price">
                 <div>
-                  <input placeholder="Product Price*" type="number" />
+                  <input
+                    placeholder="Product Price*"
+                    type="number"
+                    name="price"
+                    value={addProductData.price}
+                    onChange={handleChangeValues}
+                  />
                 </div>
               </div>
               <div id="category">
                 <div>
-                  <select>
+                  <select
+                    name="category"
+                    value={addProductData.category}
+                    onChange={handleChangeValues}
+                  >
                     <option>Men</option>
                     <option>Women</option>
                     <option>Kids</option>

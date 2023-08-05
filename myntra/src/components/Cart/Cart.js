@@ -3,6 +3,7 @@ import "./Cart.css";
 import offers from "./../../images/offers.JPG";
 import { AuthContexts } from "../Context/AuthContext";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { state } = useContext(AuthContexts);
@@ -10,6 +11,7 @@ const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [cartTotalPrice, setCartTotalPrice] = useState(0);
+  const navigateTo = useNavigate();
 
   useEffect(() => {
     if (state?.currentUser?.email) {
@@ -18,8 +20,10 @@ const Cart = () => {
     } else {
       setCurrentUser({});
       setIsUserLoggedIn(false);
+      navigateTo("/");
+      toast.error("Please login to access this page!");
     }
-  }, [state]);
+  }, [state, navigateTo]);
 
   useEffect(() => {
     if (isUserLoggedIn) {

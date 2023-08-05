@@ -231,7 +231,9 @@ const Beauty = () => {
               </div>
             ))
           ) : (
-            <h2>No Products!</h2>
+            <div id="no-prod">
+              <h2>No Products!</h2>
+            </div>
           )}
           {/* <div class="product">
             <a href="./single-product.html">

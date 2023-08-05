@@ -345,3 +345,15 @@ label {
   color: rgb(255, 136, 93);
   /* padding: 0 5px; */
 }
+
+#men-body > #right > #no-prod {
+  height: 20vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#men-body > #right > #no-prod > h2 {
+  font-weight: 600;
+}
