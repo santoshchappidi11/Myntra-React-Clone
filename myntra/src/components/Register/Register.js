@@ -2,41 +2,53 @@ import React, { useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const Register = () => {
   const navigateTo = useNavigate();
-  const [registerData, setRegisterData] = useState({
+  const [userData, setUserData] = useState({
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     role: "Buyer",
-    cart: [],
   });
 
   const handleChangeValues = (e) => {
-    setRegisterData({ ...registerData, [e.target.name]: e.target.value });
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
     if (
-      registerData.name &&
-      registerData.email &&
-      registerData.password &&
-      registerData.role
+      userData.name &&
+      userData.email &&
+      userData.password &&
+      userData.confirmPassword &&
+      userData.role
     ) {
-      const allUsers = JSON.parse(localStorage.getItem("users")) || [];
-      allUsers.push(registerData);
-      localStorage.setItem("users", JSON.stringify(allUsers));
-      setRegisterData({
-        name: "",
-        email: "",
-        password: "",
-        role: "Buyer",
-      });
-      toast.success("Registered Successfully!");
-      navigateTo("/login");
+      if (userData.password == userData.confirmPassword) {
+        const response = await axios.post("http://localhost:8002/register", {
+          userData,
+        });
+
+        if (response.data.success) {
+          setUserData({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            role: "Buyer",
+          });
+          toast.success(response.data.message);
+          navigateTo("/login");
+        } else {
+          toast.error(response.data.message);
+        }
+      } else {
+        toast.error("Password and ConfirmPassword does not match!");
+      }
     } else {
       toast.error("Please fill all the details!");
     }
@@ -64,7 +76,7 @@ const Register = () => {
                     placeholder="Enter Your Name*"
                     type="text"
                     name="name"
-                    value={registerData.name}
+                    value={userData.name}
                     onChange={handleChangeValues}
                   />
                 </div>
@@ -75,7 +87,7 @@ const Register = () => {
                     placeholder="Enter Your Email*"
                     type="email"
                     name="email"
-                    value={registerData.email}
+                    value={userData.email}
                     onChange={handleChangeValues}
                   />
                 </div>
@@ -86,7 +98,18 @@ const Register = () => {
                     placeholder="Enter Your Password*"
                     type="password"
                     name="password"
-                    value={registerData.password}
+                    value={userData.password}
+                    onChange={handleChangeValues}
+                  />
+                </div>
+              </div>
+              <div id="password">
+                <div>
+                  <input
+                    placeholder="Enter Your Confirm Password*"
+                    type="password"
+                    name="confirmPassword"
+                    value={userData.confirmPassword}
                     onChange={handleChangeValues}
                   />
                 </div>
@@ -96,7 +119,7 @@ const Register = () => {
                   <select
                     name="role"
                     onChange={handleChangeValues}
-                    value={registerData.role}
+                    value={userData.role}
                   >
                     <option>Buyer</option>
                     <option>Seller</option>

@@ -2,40 +2,32 @@ import React, { useContext, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 import { AuthContexts } from "../Context/AuthContext";
 
 const Login = () => {
   const navigateTo = useNavigate();
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [userData, setUserData] = useState({ email: "", password: "" });
   const { Login } = useContext(AuthContexts);
 
   const handleChangeValues = (e) => {
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    if (loginData.email && loginData.password) {
-      const allUsers = JSON.parse(localStorage.getItem("users"));
-      let flag = false;
-      for (let i = 0; i < allUsers.length; i++) {
-        if (
-          allUsers[i].email == loginData.email &&
-          allUsers[i].password == loginData.password
-        ) {
-          flag = true;
-          Login(allUsers[i]);
-          // localStorage.setItem("current-user", JSON.stringify(allUsers[i]));
-          setLoginData({ email: "", password: "" });
-          toast.success("Login Successfull!");
-          navigateTo("/");
-          break;
-        }
-      }
-      if (flag == false) {
-        setLoginData({ email: "", password: "" });
-        toast.error("Invalid email or password!");
+    if (userData.email && userData.password) {
+      const response = await axios.post("http://localhost:8002/login", {
+        userData,
+      });
+      if (response.data.success) {
+        Login(response.data);
+        toast.success(response.data.message);
+        setUserData({ email: "", password: "" });
+        navigateTo("/");
+      } else {
+        toast.error(response.data.message);
       }
     } else {
       toast.error("Please fill all the details!");
@@ -63,7 +55,7 @@ const Login = () => {
                     placeholder="Enter Your Email*"
                     type="email"
                     name="email"
-                    value={loginData.email}
+                    value={userData.email}
                     onChange={handleChangeValues}
                   />
                 </div>
@@ -74,7 +66,7 @@ const Login = () => {
                     placeholder="Enter Your Password*"
                     type="password"
                     name="password"
-                    value={loginData.password}
+                    value={userData.password}
                     onChange={handleChangeValues}
                   />
                 </div>
