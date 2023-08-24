@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -8,7 +8,13 @@ import { AuthContexts } from "../Context/AuthContext";
 const Login = () => {
   const navigateTo = useNavigate();
   const [userData, setUserData] = useState({ email: "", password: "" });
-  const { Login } = useContext(AuthContexts);
+  const { state, Login } = useContext(AuthContexts);
+
+  useEffect(() => {
+    if (state?.currentUser?.name) {
+      navigateTo("/");
+    }
+  }, [state, navigateTo]);
 
   const handleChangeValues = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
