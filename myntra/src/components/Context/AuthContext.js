@@ -42,10 +42,10 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const getCurrentUser = async () => {
-      const token = JSON.parse(localStorage.getItem("MyntraUserToken")) || "";
+      const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
       if (token?.length) {
         const response = await axios.post(
-          "http://localhost:8002/get-current-user",
+          "http://localhost:8001/get-current-user",
           { token }
         );
 
