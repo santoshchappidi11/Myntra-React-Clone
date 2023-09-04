@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import { AuthContexts } from "../Context/AuthContext";
+import api from "../../ApiConfig/index";
+// import axios from "axios";
 
 const Login = () => {
   const navigateTo = useNavigate();
@@ -24,7 +25,7 @@ const Login = () => {
     e.preventDefault();
 
     if (userData.email && userData.password) {
-      const response = await axios.post("http://localhost:8001/login", {
+      const response = await api.post("/login", {
         userData,
       });
       if (response.data.success) {

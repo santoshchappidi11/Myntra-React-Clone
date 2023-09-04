@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 
 export const Register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body.userData;
-    if (!name || !email || !password || !role)
+    const { name, email, number, password, role } = req.body.userData;
+    if (!name || !email || !password || !role || !number)
       return res.json({ success: false, message: "All fields are required!" });
 
     const isEmailExist = await UserModel.find({ email: email });
@@ -18,7 +18,13 @@ export const Register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new UserModel({ name, email, password: hashedPassword, role });
+    const user = new UserModel({
+      name,
+      email,
+      number,
+      password: hashedPassword,
+      role,
+    });
     await user.save();
     return res.json({
       success: true,
@@ -49,10 +55,11 @@ export const Login = async (req, res) => {
 
     if (isPasswordRight) {
       const userObject = {
-        name: user.name,
-        email: user.email,
-        userId: user._id,
-        role: user.role,
+        name: user?.name,
+        email: user?.email,
+        userId: user?._id,
+        role: user?.role,
+        number: user?.number,
       };
 
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
@@ -101,6 +108,7 @@ export const getCurrentUser = async (req, res) => {
       email: user?.email,
       role: user?.role,
       _id: user?._id,
+      number: user?.number,
     };
 
     return res.status(200).json({ success: true, user: userObj });

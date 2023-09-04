@@ -2,22 +2,42 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Women.css";
 import { AuthContexts } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import api from "../../ApiConfig/index";
 
 const Women = () => {
-  const { state } = useContext(AuthContexts);
+  // const { state } = useContext(AuthContexts);
   const [productsData, setProductsData] = useState([]);
+  const [womenProductsData, setWomenProductsData] = useState([]);
   const navigateTo = useNavigate();
 
   useEffect(() => {
-    if (state?.products?.length) {
-      const newProducts = state?.products?.filter(
+    const getAllProducts = async () => {
+      try {
+        const response = await api.get("/all-products");
+        if (response.data.success) {
+          setProductsData(response.data.products);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+
+    getAllProducts();
+  }, []);
+
+  useEffect(() => {
+    if (productsData?.length) {
+      const newProducts = productsData?.filter(
         (prod) => prod.category == "Women"
       );
-      setProductsData(newProducts);
+      setWomenProductsData(newProducts);
     } else {
-      setProductsData([]);
+      setWomenProductsData([]);
     }
-  }, [state]);
+  }, [productsData]);
 
   return (
     <>
@@ -175,11 +195,12 @@ const Women = () => {
           </div>
         </div>
         <div id="right">
-          {productsData?.length ? (
-            productsData.map((prod) => (
+          {womenProductsData?.length ? (
+            womenProductsData.map((prod) => (
               <div
                 className="product"
-                onClick={() => navigateTo(`/single-product/${prod.id}`)}
+                key={prod._id}
+                onClick={() => navigateTo(`/single-product/${prod._id}`)}
               >
                 <div className="img">
                   <img src={prod.image} alt="women" />
@@ -200,151 +221,6 @@ const Women = () => {
               <h2>No Products!</h2>
             </div>
           )}
-          {/* <div class="product">
-            <a href="./single-product.html">
-              <img
-                src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/20695836/2022/11/10/ba1724c2-c606-481c-a0ca-63424b61a8661668078028270WomensRayonPrintedEmbroideredKurtaWithPantAndDupatta1.jpg"
-                alt="women"
-              />
-            </a>
-            <h2>SINGNI</h2>
-            <p>Women Embroided Kurta Set</p>
-            <div class="price-structure">
-              <h3>Rs. 1299</h3>
-              <span>Rs. 4999</span>
-              <h6>(74% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/18652620/2022/8/26/4d5f7043-a460-42e5-b67a-b04d9c0bc7041661503606623-KALINI-Women-Beige-Floral-Yoke-Design-Kurta-with-Trousers--W-1.jpg"
-              alt="women"
-            />
-            <h2>KALINI</h2>
-            <p>Women Yoke Design Kurta Set</p>
-            <div class="price-structure">
-              <h3>Rs. 813</h3>
-              <span>Rs. 3699</span>
-              <h6>(78% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/13932876/2021/4/14/7ac5777f-1bb6-41ae-82f2-b432efca47661618405359810AnaynaWomensFlaredKurta2.jpg"
-              alt="women"
-            />
-            <h2>anayna</h2>
-            <p>Bandhani Cotton Angrakha kurta</p>
-            <div class="price-structure">
-              <h3>Rs. 659</h3>
-              <span>Rs. 2199</span>
-              <h6>(70% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22911800/2023/4/26/28bf7014-3ee9-4024-a506-ee02ccb83f8e1682515506345FASHIONDEPTHWomenEmbroideredCottonStraightKurtaPantDupattaSe1.jpg"
-              alt="women"
-            />
-            <h2>FASHION DEPTH</h2>
-            <p>Kurta with Trousers & Dupatta</p>
-            <div class="price-structure">
-              <h3>Rs. 1299</h3>
-              <span>Rs. 3999</span>
-              <h6>(70% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/16714126/2022/2/3/0250ccee-67d6-46fa-ab5b-f4d5e36ccb761643878799794-Anouk-Women-Kurtas-5101643878799296-1.jpg"
-              alt="women"
-            />
-            <h2>Anouk</h2>
-            <p>Women Bandhani Printed Kurta</p>
-            <div class="price-structure">
-              <h3>Rs. 594</h3>
-              <span>Rs. 1699</span>
-              <h6>(65% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/10356511/2019/8/8/a28f9ccb-c0d7-4e66-87f0-e639f157ff2d1565263388836-Libas-Women-Kurta-Sets-571565263387250-1.jpg"
-              alt="women"
-            />
-            <h2>Libas</h2>
-            <p>Ethnic Print Kurta Set</p>
-            <div class="price-structure">
-              <h3>Rs. 767</h3>
-              <span>Rs. 2399</span>
-              <h6>(68% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/20498352/2022/10/22/3424a72e-8518-4853-aa99-e48a0e1205841666419466834KALINIWomenPistaGreenStraightKurtawithTrouserDupatta1.jpg"
-              alt="women"
-            />
-            <h2>KALINI</h2>
-            <p>Women Embroided Kurta Set</p>
-            <div class="price-structure">
-              <h3>Rs. 813</h3>
-              <span>Rs. 3699</span>
-              <h6>(78% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/19824518/2022/9/8/e9743e35-4c67-4e74-872d-58da3461e8731662619809853InddusWomenMagentaThreadWorkKurtawithTrousersWithDupatta5.jpg"
-              alt="women"
-            />
-            <h2>Inddus</h2>
-            <p>Women Embroided Kurta Set</p>
-            <div class="price-structure">
-              <h3>Rs. 2634</h3>
-              <span>Rs. 8499</span>
-              <h6>(69% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22143838/2023/3/9/19485e92-d4cf-4d2e-8e10-01dacc0d4b4d1678359322683-anayna-Ethnic-Motifs-Printed-Kurta-5981678359322070-1.jpg"
-              alt="women"
-            />
-            <h2>anayna</h2>
-            <p>Women Ethnic Motifs Printed..</p>
-            <div class="price-structure">
-              <h3>Rs. 539</h3>
-              <span>Rs. 1799</span>
-              <h6>(70% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/23142798/2023/5/12/c013275e-3d58-4b78-b516-db8fab54f3b21683880128771KurtaSets1.jpg"
-              alt="women"
-            />
-            <h2>HANDME</h2>
-            <p>Embroided Kurta Set</p>
-            <div class="price-structure">
-              <h3>Rs. 5599</h3>
-              <span>Rs. 6999</span>
-              <h6>(20% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/19231474/2022/7/23/cbc61e73-8d7e-415a-9ade-bc4b9daab57d1658563077615Kurtas1.jpg"
-              alt="women"
-            />
-            <h2>HERE&NOW</h2>
-            <p>Women Floral Embroidered..</p>
-            <div class="price-structure">
-              <h3>Rs. 659</h3>
-              <span>Rs. 1998</span>
-              <h6>(67% OFF)</h6>
-            </div>
-          </div> */}
         </div>
       </div>
     </>

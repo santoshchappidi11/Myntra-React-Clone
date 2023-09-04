@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./SingleProduct.css";
 import { AuthContexts } from "../Context/AuthContext";
 import { toast } from "react-hot-toast";
+import api from "../../ApiConfig/index";
 
 const SingleProduct = () => {
   const { state } = useContext(AuthContexts);
@@ -10,8 +11,10 @@ const SingleProduct = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isShowEditBtn, setIsShowEditBtn] = useState(false);
-  const singleProd = useParams();
+  const { singleProdId } = useParams();
   const navigateTo = useNavigate();
+
+  console.log(singleProdId);
 
   useEffect(() => {
     if (state?.currentUser?.email) {
@@ -32,13 +35,32 @@ const SingleProduct = () => {
   }, [state]);
 
   useEffect(() => {
-    if (state?.products?.length) {
-      const newProduct = state?.products?.find(
-        (prod) => prod.id == singleProd.id
-      );
-      setProduct(newProduct);
-    }
-  }, [state, singleProd]);
+    // if (state?.products?.length) {
+    //   const newProduct = state?.products?.find(
+    //     (prod) => prod.id == singleProd.id
+    //   );
+    //   setProduct(newProduct);
+    // }
+
+    const getSingleProductData = async () => {
+      try {
+        const response = await api.post("/get-singleproduct-data", {
+          productId: singleProdId,
+        });
+
+        if (response.data.success) {
+          setProduct(response.data.product);
+        } else {
+          setProduct({});
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+
+    getSingleProductData();
+  }, [singleProdId]);
 
   const addToCart = () => {
     if (isUserLoggedIn) {
@@ -150,7 +172,7 @@ const SingleProduct = () => {
               {isShowEditBtn && (
                 <button
                   style={{ fontSize: "15px", fontWeight: "bold" }}
-                  onClick={() => navigateTo(`/edit-product/${product.id}`)}
+                  onClick={() => navigateTo(`/edit-product/${product._id}`)}
                 >
                   <i
                     class="fa-regular fa-pen-to-square fa-lg"

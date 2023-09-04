@@ -1,24 +1,43 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./HomeKitchen.css";
-import { AuthContexts } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import api from "../../ApiConfig/index";
+import { toast } from "react-hot-toast";
+// import { AuthContexts } from "../Context/AuthContext";
 
 const HomeKitchen = () => {
-  const { state } = useContext(AuthContexts);
+  // const { state } = useContext(AuthContexts);
   const [productsData, setProductsData] = useState([]);
+  const [homekitchenProductData, sethomekitchenProductData] = useState([]);
   const navigateTo = useNavigate();
 
   useEffect(() => {
-    if (state?.products?.length) {
-      const newProducts = state?.products?.filter(
+    const getAllProducts = async () => {
+      try {
+        const response = await api.get("/all-products");
+        if (response.data.success) {
+          setProductsData(response.data.products);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+
+    getAllProducts();
+  }, []);
+
+  useEffect(() => {
+    if (productsData?.length) {
+      const newProducts = productsData?.filter(
         (prod) => prod.category == "Home&Kitchen"
       );
-
-      setProductsData(newProducts);
+      sethomekitchenProductData(newProducts);
     } else {
-      setProductsData([]);
+      sethomekitchenProductData([]);
     }
-  }, [state]);
+  }, [productsData]);
 
   return (
     <>
@@ -211,11 +230,12 @@ const HomeKitchen = () => {
           </div>
         </div>
         <div id="right">
-          {productsData?.length ? (
-            productsData.map((prod) => (
+          {homekitchenProductData?.length ? (
+            homekitchenProductData.map((prod) => (
               <div
                 className="product"
-                onClick={() => navigateTo(`/single-product/${prod.id}`)}
+                key={prod._id}
+                onClick={() => navigateTo(`/single-product/${prod._id}`)}
               >
                 <div className="img">
                   <img src={prod.image} alt="women" />
@@ -236,151 +256,6 @@ const HomeKitchen = () => {
               <h2>No Products!</h2>
             </div>
           )}
-          {/* <div class="product">
-            <a href="./single-product.html">
-              <img
-                src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22888050/2023/4/25/8c71d659-4a75-4a19-86b7-568a5082bd451682405980805TowelSet1.jpg"
-                alt="home-living"
-              />
-            </a>
-            <h2>Trident</h2>
-            <p>2 Pieces Cotton Towel</p>
-            <div class="price-structure">
-              <h3>Rs. 474</h3>
-              <span>Rs. 1899</span>
-              <h6>(75% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22786284/2023/5/26/88b3201c-74b4-4f69-8dc1-fa04eb352f271685085541978-Storyhome-Ventura-Teal--Black-Geometric-152-TC-Cotton-Queen--1.jpg"
-              alt="home-living"
-            />
-            <h2>Story@home</h2>
-            <p>Queen Bedsheet, Pillow and Cover</p>
-            <div class="price-structure">
-              <h3>Rs. 424</h3>
-              <span>Rs. 2499</span>
-              <h6>(83% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/21162354/2022/12/12/7a812b74-c5ad-4d8f-866a-c1fa3978f87e1670843579160CHHAVIINDIAWhitePinkFloral210TCKingBedsheetwith2PillowCovers1.jpg"
-              alt="home-living"
-            />
-            <h2>CHHAVI INDIA</h2>
-            <p>210 TC King 2 Pillow Covers</p>
-            <div class="price-structure">
-              <h3>Rs. 779</h3>
-              <span>Rs. 2999</span>
-              <h6>(74% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2021/2/2/4e586db8-ef87-4ba3-accf-f3d33503298b1612251367093-1.jpg"
-              alt="home-living"
-            />
-            <h2>Home Sizzler</h2>
-            <p>144 TC 1 Queen Bedsheet..</p>
-            <div class="price-structure">
-              <h3>Rs. 299</h3>
-              <span>Rs. 1199</span>
-              <h6>(75% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/20260770/2022/10/4/d534bfe6-df92-4330-b364-f8505f0b24d81664887843543MiltonMaroonSolidTriply3mmExtra-ThickCookwareSet1.jpg"
-              alt="home-living"
-            />
-            <h2>Milton</h2>
-            <p>Pro Cook 5 PCs Cookware Set</p>
-            <div class="price-structure">
-              <h3>Rs. 1499</h3>
-              <span>Rs. 5500</span>
-              <h6>(40% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2021/2/18/f6531b3a-7f62-43cf-8b0e-881920d2fe171613631479005-1.jpg"
-              alt="home-living"
-            />
-            <h2>GOODHOMES</h2>
-            <p>Set of 3 Glass Storage Box with..</p>
-            <div class="price-structure">
-              <h3>Rs. 795</h3>
-              <span>Rs. 3000</span>
-              <h6>(74% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/20072904/2022/9/19/cf483cfc-c260-4d61-a397-02d9b58257ea1663577085606Serveware1.jpg"
-              alt="home-living"
-            />
-            <h2>Milton</h2>
-            <p>Set of 3 Serving Casseroles</p>
-            <div class="price-structure">
-              <h3>Rs. 949</h3>
-              <span>Rs. 2999</span>
-              <h6>(49% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/18327324/2022/5/19/0c645a5c-1695-477c-9f19-e9539ca0d8af1652941342373HomeSizzlerUnisexGreyBedsheets1.jpg"
-              alt="home-living"
-            />
-            <h2>Home Sizzler</h2>
-            <p>210 TC Single 1 Pillow Cover</p>
-            <div class="price-structure">
-              <h3>Rs. 199</h3>
-              <span>Rs. 799</span>
-              <h6>(75% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/17361352/2022/3/3/ec2fcbee-3373-406b-b69c-a171e1a1a7bf1646305826450CortinaBrownSetof2AbstractRoomDarkeningVelvetWindowCurtains1.jpg"
-              alt="home-living"
-            />
-            <h2>Cortina</h2>
-            <p>Set of 2 Window Curtains</p>
-            <div class="price-structure">
-              <h3>Rs. 559</h3>
-              <span>Rs. 1598</span>
-              <h6>(65% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/15292382/2021/8/28/0147767f-9631-426f-a56f-64d253b14ef61630140611270Planters1.jpg"
-              alt="home-living"
-            />
-            <h2>Homesake</h2>
-            <p>Set of 2 plant Hangers</p>
-            <div class="price-structure">
-              <h3>Rs. 375</h3>
-              <span>Rs. 2000</span>
-              <h6>(25% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/23264074/2023/5/19/2d3e3a62-fd64-4d2a-97fb-12f8ade750221684434714932TridentQueenBedsheetSet144TC100CottonBagh1.jpg"
-              alt="home-living"
-            />
-            <h2>Trident</h2>
-            <p>Queen Bedsheet & Pillow Covers</p>
-            <div class="price-structure">
-              <h3>Rs. 620</h3>
-              <span>Rs. 2699</span>
-              <h6>(77% OFF)</h6>
-            </div>
-          </div> */}
         </div>
       </div>
     </>

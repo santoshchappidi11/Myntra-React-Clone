@@ -2,10 +2,13 @@ import React, { useContext, useState } from "react";
 import "./AddProduct.css";
 import { toast } from "react-hot-toast";
 import { AuthContexts } from "../Context/AuthContext";
-import { v4 as uuidv4 } from "uuid";
+import api from "../../ApiConfig";
+import { useNavigate } from "react-router-dom";
+// import { v4 as uuidv4 } from "uuid";
 
 const AddProduct = () => {
   const { state, contextProducts } = useContext(AuthContexts);
+  const navigateTo = useNavigate();
   // const [currentUser, setCurrentUser] = useState({});
   const [addProductData, setAddProductData] = useState({
     name: "",
@@ -26,7 +29,7 @@ const AddProduct = () => {
     setAddProductData({ ...addProductData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmitAddProduct = (e) => {
+  const handleSubmitAddProduct = async (e) => {
     e.preventDefault();
 
     if (
@@ -35,12 +38,25 @@ const AddProduct = () => {
       addProductData.price &&
       addProductData.category
     ) {
-      const allProducts = JSON.parse(localStorage.getItem("products")) || [];
-      let randomId = uuidv4();
-      addProductData["id"] = randomId;
-      allProducts.push(addProductData);
-      contextProducts(allProducts);
-      toast.success("Product added successfully!");
+      try {
+        const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
+
+        if (token) {
+          const response = await api.post("/add-product", {
+            addProductData,
+            token,
+          });
+
+          if (response.data.success) {
+            toast.success(response.data.message);
+            navigateTo("/");
+          } else {
+            toast.error(response.data.message);
+          }
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     } else {
       toast.error("Please fill all the fields!");
     }

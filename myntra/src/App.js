@@ -31,9 +31,9 @@ function App() {
         <Route exact path="/home-living" element={<HomeKitchen />} />
         <Route exact path="/beauty" element={<Beauty />} />
         <Route exact path="/cart" element={<Cart />} />
-        <Route exact path="/single-product/:id" element={<SingleProduct />} />
+        <Route exact path="/single-product/:singleProdId" element={<SingleProduct />} />
         <Route exact path="/add-product" element={<AddProduct />} />
-        <Route exact path="/edit-product/:id" element={<EditProduct />} />
+        <Route exact path="/edit-product/:editProdId" element={<EditProduct />} />
       </Routes>
       <Footer />
     </div>

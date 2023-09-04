@@ -111,6 +111,35 @@
   padding: 0 0 0 10px;
 }
 
+#register-body > #register-structure > #lower > form > #number {
+  height: 38px;
+  margin: 10px 0;
+}
+
+#register-body > #register-structure > #lower > form > #number > div {
+  height: 100%;
+  width: 100%;
+  /* border: 1px solid green; */
+}
+
+#register-body > #register-structure > #lower > form > #number > div > input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  border: 1px solid rgb(161, 159, 159);
+}
+
+#register-body
+  > #register-structure
+  > #lower
+  > form
+  > #number
+  > div
+  > input::placeholder {
+  padding: 0 0 0 10px;
+}
+
 #register-body > #register-structure > #lower > form > #password {
   height: 38px;
   margin: 10px 0;

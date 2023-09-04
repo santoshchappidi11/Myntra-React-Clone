@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import { AuthContexts } from "../Context/AuthContext";
+import api from "../../ApiConfig/index";
+// import axios from "axios";
 
 const Register = () => {
   const { state } = useContext(AuthContexts);
@@ -11,6 +12,7 @@ const Register = () => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
+    number: "",
     password: "",
     confirmPassword: "",
     role: "Buyer",
@@ -32,12 +34,13 @@ const Register = () => {
     if (
       userData.name &&
       userData.email &&
+      userData.number &&
       userData.password &&
       userData.confirmPassword &&
       userData.role
     ) {
       if (userData.password == userData.confirmPassword) {
-        const response = await axios.post("http://localhost:8001/register", {
+        const response = await api.post("/register", {
           userData,
         });
 
@@ -47,6 +50,7 @@ const Register = () => {
             email: "",
             password: "",
             confirmPassword: "",
+            number: "",
             role: "Buyer",
           });
           toast.success(response.data.message);
@@ -100,6 +104,17 @@ const Register = () => {
                   />
                 </div>
               </div>
+              <div id="number">
+                <div>
+                  <input
+                    placeholder="Enter Your Number*"
+                    type="number"
+                    name="number"
+                    value={userData.number}
+                    onChange={handleChangeValues}
+                  />
+                </div>
+              </div>
               <div id="password">
                 <div>
                   <input
@@ -131,6 +146,7 @@ const Register = () => {
                   >
                     <option>Buyer</option>
                     <option>Seller</option>
+                    <option>Admin</option>
                   </select>
                 </div>
               </div>

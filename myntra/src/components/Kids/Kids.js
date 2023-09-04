@@ -1,23 +1,45 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Kids.css";
-import { AuthContexts } from "../Context/AuthContext";
+// import { AuthContexts } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import api from "../../ApiConfig/index";
 
 const Kids = () => {
-  const { state } = useContext(AuthContexts);
+  // const { state } = useContext(AuthContexts);
   const [productsData, setProductsData] = useState([]);
+  const [kidsProductsData, setKidsProductsData] = useState([]);
   const navigateTo = useNavigate();
 
+  // console.log(productsData);
+
   useEffect(() => {
-    if (state?.products?.length) {
-      const newProducts = state?.products?.filter(
+    const getAllProducts = async () => {
+      try {
+        const response = await api.get("/all-products");
+        if (response.data.success) {
+          setProductsData(response.data.products);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+
+    getAllProducts();
+  }, []);
+
+  useEffect(() => {
+    if (productsData?.length) {
+      const newProducts = productsData?.filter(
         (prod) => prod.category == "Kids"
       );
-      setProductsData(newProducts);
+      setKidsProductsData(newProducts);
     } else {
-      setProductsData([]);
+      setKidsProductsData([]);
     }
-  }, [state]);
+  }, [productsData]);
 
   return (
     <>
@@ -218,11 +240,12 @@ const Kids = () => {
           </div>
         </div>
         <div id="right">
-          {productsData?.length ? (
-            productsData.map((prod) => (
+          {kidsProductsData?.length ? (
+            kidsProductsData.map((prod) => (
               <div
                 className="product"
-                onClick={() => navigateTo(`/single-product/${prod.id}`)}
+                key={prod._id}
+                onClick={() => navigateTo(`/single-product/${prod._id}`)}
               >
                 <div className="img">
                   <img src={prod.image} alt="women" />
@@ -243,151 +266,6 @@ const Kids = () => {
               <h2>No Products!</h2>
             </div>
           )}
-          {/* <div class="product">
-            <a href="./single-product.html">
-              <img
-                src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22797270/2023/5/15/2c4f57f3-192f-4a19-b9d5-5490f7eafe701684136617812-US-Polo-Assn-Kids-Boys-Tshirts-1741684136617292-1.jpg"
-                alt="kids"
-              />
-            </a>
-            <h2>U.S. Polo Assn. kids</h2>
-            <p>Boys Set of 2 Cotton T-shirts</p>
-            <div class="price-structure">
-              <h3>Rs. 599</h3>
-              <span>Rs. 1599</span>
-              <h6>(65% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22508642/2023/3/25/6c5f1070-ab90-421e-8a2e-fbd1e4ccc2631679691490894BONKIDSBoysWhitePrintedPocketsT-shirt2.jpg"
-              alt="kids"
-            />
-            <h2>BONKIDS</h2>
-            <p>Boys Printed Cotton T-shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 399</h3>
-              <span>Rs. 1332</span>
-              <h6>(70% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/15334348/2021/9/1/d784aa9b-15a9-41e0-86d1-a9cba85591e71630509125052BonOrganikBoysWhitePrintedV-NeckAppliqueT-shirt1.jpg"
-              alt="kids"
-            />
-            <h2>BonOrganik</h2>
-            <p>Boys Graphic Printed T-shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 349</h3>
-              <span>Rs. 1164</span>
-              <h6>(70% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22204518/2023/3/2/a9b7d358-129e-4170-82d4-1166e59a1f451677770727893Tshirts1.jpg"
-              alt="kids"
-            />
-            <h2>HELLCAT</h2>
-            <p>Boys Pack of 5 Cotton T-shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 714</h3>
-              <span>Rs. 6495</span>
-              <h6>(89% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11245466/2022/9/9/81178c26-49cc-4555-9d23-78084d871e6c1662729416552-Hrx-By-Hrithik-Roshan-Boys-Navy-Blue-Printed-Bio-Wash-Lifest-1.jpg"
-              alt="kids"
-            />
-            <h2>HRX by Hrithik Roshan</h2>
-            <p>U-17 Boys Lifestyle T-shirts</p>
-            <div class="price-structure">
-              <h3>Rs. 199</h3>
-              <span>Rs. 799</span>
-              <h6>(75% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22797248/2023/5/15/d6ff77cc-395e-44ab-a5ea-bc0be1ff0ce11684136591208-US-Polo-Assn-Kids-Boys-Tshirts-8021684136590655-1.jpg"
-              alt="kids"
-            />
-            <h2>U.S. Polo Assn. Kids</h2>
-            <p>Boys Set of 2 Cotton T-Shirts</p>
-            <div class="price-structure">
-              <h3>Rs. 559</h3>
-              <span>Rs. 1599</span>
-              <h6>(65% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/16864688/2022/1/18/30cd2a51-290a-41b0-80de-b91ac7d98d071642503006966BONKIDSBoysWhiteSpider-ManPrintedAppliqueT-shirt1.jpg"
-              alt="kids"
-            />
-            <h2>BONKIDS</h2>
-            <p>Boys Printed T-shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 293</h3>
-              <span>Rs. 1332</span>
-              <h6>(78% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/23023620/2023/5/4/bc50fea8-3ff7-4ea8-9028-9e17b2093eb11683206181206UnitedColorsofBenettonBoysWhiteStripedPocketsT-shirt1.jpg"
-              alt="kids"
-            />
-            <h2>United Colors of Benetton</h2>
-            <p>Boys Striped Cotton T-Shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 649</h3>
-              <span>Rs. 999</span>
-              <h6>(35% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22861230/2023/4/24/6bb873d8-ef5c-49da-ae3c-5ce9f6447a161682338712445KUCHIPOOBoysGreen5PrintedAppliqueT-shirt1.jpg"
-              alt="kids"
-            />
-            <h2>KUCHIPOO</h2>
-            <p>Boys Pack of 5 T-shirts</p>
-            <div class="price-structure">
-              <h3>Rs. 799</h3>
-              <span>Rs. 2400</span>
-              <h6>(70% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/22854464/2023/4/21/0fe7d495-c392-4c1e-b2b6-5bbb0616c5751682097508442Tshirts1.jpg"
-              alt="kids"
-            />
-            <h2>Pantaloons Junior</h2>
-            <p>Boys Printed Cotton T-shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 424</h3>
-              <span>Rs. 499</span>
-              <h6>(15% OFF)</h6>
-            </div>
-          </div>
-          <div class="product">
-            <img
-              src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/21389254/2023/3/9/cbca41b9-a43a-4afc-86cf-13fbdba7de5d1678355543147-HERENOW-Boys-Tshirts-5371678355542468-1.jpg"
-              alt="kids"
-            />
-            <h2>HERE&NOW</h2>
-            <p>Boys 3 PCs Cotton T-shirt</p>
-            <div class="price-structure">
-              <h3>Rs. 524</h3>
-              <span>Rs. 2099</span>
-              <h6>(75% OFF)</h6>
-            </div>
-          </div> */}
         </div>
       </div>
     </>

@@ -3,9 +3,10 @@ import "./EditProduct.css";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { AuthContexts } from "../Context/AuthContext";
+import api from "../../ApiConfig/index";
 
 const EditProduct = () => {
-  const singleProduct = useParams();
+  const { editProdId } = useParams();
   const { state, contextProducts } = useContext(AuthContexts);
   const [productsContext, setProductsContext] = useState([]);
   const [editProductData, setEditProductData] = useState({
@@ -20,15 +21,36 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
-    if (state.products?.length) {
-      const newProduct = state?.products?.find(
-        (prod) => prod.id == singleProduct.id
-      );
-      setEditProductData(newProduct);
-    } else {
-      setEditProductData({});
-    }
-  }, [state, singleProduct]);
+    // if (state.products?.length) {
+    //   const newProduct = state?.products?.find(
+    //     (prod) => prod.id == singleProduct.id
+    //   );
+    //   setEditProductData(newProduct);
+    // } else {
+    //   setEditProductData({});
+    // }
+
+    const getEditProductData = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
+
+        const response = await api.post("/get-editproduct-data", {
+          token,
+          productId: editProdId,
+        });
+
+        if (response.data.success) {
+          setEditProductData(response.data.product);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+
+    getEditProductData();
+  }, [editProdId]);
 
   useEffect(() => {
     if (state?.currentUser) {
@@ -38,7 +60,7 @@ const EditProduct = () => {
     }
   }, [state]);
 
-  const handleEditProductSubmit = (e) => {
+  const handleEditProductSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -47,24 +69,23 @@ const EditProduct = () => {
       editProductData.price &&
       editProductData.category
     ) {
-      // const allProducts = JSON.parse(localStorage.getItem("products")) || [];
-      for (let i = 0; i < productsContext.length; i++) {
-        if (productsContext[i].id == singleProduct.id) {
-          productsContext[i].id = editProductData.id;
-          productsContext[i].name = editProductData.name;
-          productsContext[i].image = editProductData.image;
-          productsContext[i].price = editProductData.price;
-          productsContext[i].category = editProductData.category;
+      try {
+        const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
+
+        const response = await api.patch("/update-your-product", {
+          editProductData,
+          token,
+          productId: editProdId,
+        });
+
+        if (response.data.success) {
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
         }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
-      contextProducts(productsContext);
-      setEditProductData({
-        name: "",
-        image: "",
-        price: "",
-        category: "Men",
-      });
-      toast.success("Product updated successfully!");
     } else {
       toast.error("Please fill all the details!");
     }
@@ -129,7 +150,7 @@ const EditProduct = () => {
                     <option>Men</option>
                     <option>Women</option>
                     <option>Kids</option>
-                    <option>Home&Living</option>
+                    <option>Home&Kitchen</option>
                     <option>Beauty</option>
                   </select>
                 </div>
