@@ -163,6 +163,20 @@ h3 {
   /* border: 1px solid black; */
 }
 
+#right > #div-two > #add-to-cart > #delete-btn {
+  height: 55px;
+  width: 200px;
+  border: none;
+  background: none;
+ margin: 0 0 0 15px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+#right > #div-two > #add-to-cart > #delete-btn:hover {
+  cursor: pointer;
+}
+
 #right > #div-two > #add-to-cart > button:nth-child(1) {
   height: 55px;
   width: 252px;

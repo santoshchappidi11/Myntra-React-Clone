@@ -3,6 +3,7 @@ import "./Profile.css";
 import { AuthContexts } from "../Context/AuthContext";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import api from "../../ApiConfig/index";
 
 const Profile = () => {
   const { state, Login } = useContext(AuthContexts);
@@ -22,20 +23,6 @@ const Profile = () => {
     }
   }, [state, navigateTo]);
 
-  useEffect(() => {
-    if (currentUser) {
-      const allUsers = JSON.parse(localStorage.getItem("users"));
-      for (let i = 0; i < allUsers.length; i++) {
-        if (
-          allUsers[i].email == currentUser.email &&
-          allUsers[i].password == currentUser.password
-        ) {
-          setEditProfile(allUsers[i]);
-        }
-      }
-    }
-  }, [currentUser]);
-
   const openEditProfilePopup = () => {
     setIsShowEditProfilePopup(true);
     setIsShowScreen(true);
@@ -50,31 +37,28 @@ const Profile = () => {
     setEditProfile({ ...editProfile, [e.target.name]: e.target.value });
   };
 
-  const handleEditProfileSubmit = (e) => {
+  const handleEditProfileSubmit = async (e) => {
     e.preventDefault();
 
-    if (editProfile.name && editProfile.password) {
-      if (currentUser?.email) {
-        const allUsers = JSON.parse(localStorage.getItem("users")) || [];
-        for (let i = 0; i < allUsers.length; i++) {
-          if (
-            allUsers[i].email == currentUser.email &&
-            allUsers[i].password == currentUser.password
-          ) {
-            allUsers[i].name = editProfile.name;
-            allUsers[i].password = editProfile.password;
-            currentUser.name = editProfile.name;
-            currentUser.password = editProfile.password;
-            Login(currentUser);
-            localStorage.setItem("users", JSON.stringify(allUsers));
-          }
-        }
+    try {
+      const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
+
+      const response = await api.post("/update-user-details", {
+        token,
+        editProfile,
+      });
+
+      if (response.data.success) {
+        Login(response.data);
+        setIsShowEditProfilePopup(false);
+        setIsShowScreen(false);
+        setEditProfile({ name: "", password: "" });
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
       }
-      setIsShowScreen(false);
-      setIsShowEditProfilePopup(false);
-      toast.success("Profile updated successfully!");
-    } else {
-      toast.error("Please fill all the details!");
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
@@ -127,11 +111,11 @@ const Profile = () => {
                 </div>
                 <div>
                   <p>Mobile Number</p>
-                  <span>8356015803</span>
+                  <span>{currentUser?.number}</span>
                 </div>
                 <div>
                   <p>Email ID</p>
-                  <span>{currentUser.email}</span>
+                  <span>{currentUser?.email}</span>
                 </div>
                 <div>
                   <p>Gender</p>

@@ -40,23 +40,27 @@ const Register = () => {
       userData.role
     ) {
       if (userData.password == userData.confirmPassword) {
-        const response = await api.post("/register", {
-          userData,
-        });
-
-        if (response.data.success) {
-          setUserData({
-            name: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-            number: "",
-            role: "Buyer",
+        try {
+          const response = await api.post("/register", {
+            userData,
           });
-          toast.success(response.data.message);
-          navigateTo("/login");
-        } else {
-          toast.error(response.data.message);
+
+          if (response.data.success) {
+            setUserData({
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              number: "",
+              role: "Buyer",
+            });
+            toast.success(response.data.message);
+            navigateTo("/login");
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
         }
       } else {
         toast.error("Password and ConfirmPassword does not match!");

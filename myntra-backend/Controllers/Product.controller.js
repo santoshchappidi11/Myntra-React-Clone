@@ -83,14 +83,14 @@ export const updateYourProduct = async (req, res) => {
     if (!token)
       return res
         .status(404)
-        .json({ status: "error", message: "Token is required" });
+        .json({ success: false, message: "Token is required" });
 
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decodedData)
       return res
         .status(404)
-        .json({ status: "error", message: "Not a valid token!" });
+        .json({ success: false, message: "Not a valid token!" });
 
     const userId = decodedData.userId;
 
@@ -102,17 +102,17 @@ export const updateYourProduct = async (req, res) => {
 
     if (updatedProduct)
       return res.status(200).json({
-        status: "success",
+        success: true,
+        message: "Product updated successfully!",
         product: updatedProduct,
-        messag: "Product updated successfully!",
       });
 
     return res.status(404).json({
-      status: "error",
+      success: false,
       message: "you are trying to update product which is not yours",
     });
   } catch (error) {
-    return res.status(500).json({ status: "error", error: error.message });
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -121,7 +121,9 @@ export const deleteYourProduct = async (req, res) => {
     const { token, productId } = req.body;
 
     if (!token || !productId)
-      throw new Error("Token and Product Id is required!");
+      return res
+        .status(404)
+        .json({ success: false, message: "Token and Product Id is required!" });
 
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -133,12 +135,18 @@ export const deleteYourProduct = async (req, res) => {
     });
 
     if (isProductDeleted) {
-      return res.status(200).json({ success: true, product: isProductDeleted });
+      return res.status(200).json({
+        success: true,
+        message: "Product Deleted!",
+        product: isProductDeleted,
+      });
     }
 
-    throw new Error("MongoDB error!");
+    return res
+      .status(404)
+      .json({ success: false, message: "Something went wrong!" });
   } catch (error) {
-    return res.status(500).json({ status: "error", error: error.message });
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 

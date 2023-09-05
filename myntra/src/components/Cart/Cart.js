@@ -4,6 +4,7 @@ import offers from "./../../images/offers.JPG";
 import { AuthContexts } from "../Context/AuthContext";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import api from "../../ApiConfig/index";
 
 const Cart = () => {
   const { state } = useContext(AuthContexts);
@@ -14,7 +15,7 @@ const Cart = () => {
   const navigateTo = useNavigate();
 
   useEffect(() => {
-    if (state?.currentUser?.email) {
+    if (state?.currentUser?.name) {
       setCurrentUser(state?.currentUser);
       setIsUserLoggedIn(true);
     } else {
@@ -26,19 +27,25 @@ const Cart = () => {
   }, [state, navigateTo]);
 
   useEffect(() => {
-    if (isUserLoggedIn) {
-      const allUsers = JSON.parse(localStorage.getItem("users"));
+    const getAllCartProducts = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
 
-      for (let i = 0; i < allUsers.length; i++) {
-        if (
-          allUsers[i].email == currentUser.email &&
-          allUsers[i].password == currentUser.password
-        ) {
-          setCartProducts(allUsers[i].cart);
+        const response = await api.post("/get-cart-products", { token });
+
+        if (response.data.success) {
+          setCartProducts(response.data.products);
+        } else {
+          setCartProducts([]);
+          toast.error(response.data.message);
         }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
-    }
-  }, [currentUser, isUserLoggedIn]);
+    };
+
+    getAllCartProducts();
+  }, []);
 
   useEffect(() => {
     if (cartProducts?.length) {
@@ -52,47 +59,39 @@ const Cart = () => {
     }
   }, [cartProducts]);
 
-  const removeCartProduct = (index) => {
-    if (currentUser) {
-      const allUsers = JSON.parse(localStorage.getItem("users"));
+  const removeCartProduct = async (productId) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
+      const response = await api.post("/remove-cart-product", {
+        token,
+        productId,
+      });
 
-      for (let i = 0; i < allUsers.length; i++) {
-        if (
-          allUsers[i].email == currentUser.email &&
-          allUsers[i].password == currentUser.password
-        ) {
-          allUsers[i].cart.splice(index, 1);
-          setCartProducts(allUsers[i].cart);
-          localStorage.setItem("users", JSON.stringify(allUsers));
-          toast.success("Product removed!");
-          break;
-        }
+      if (response.data.success) {
+        setCartProducts(response.data.products);
+        toast.success(response.data.message);
+      } else {
+        toast.success(response.data.message);
+        setCartProducts([]);
       }
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
-  const removeAllCartProducts = () => {
-    if (currentUser) {
-      if (cartProducts.length > 0) {
-        const allUsers = JSON.parse(localStorage.getItem("users"));
+  const removeAllCartProducts = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
+      const response = await api.post("/remove-all-cart-products", { token });
 
-        for (let i = 0; i < allUsers.length; i++) {
-          if (
-            allUsers[i].email == currentUser.email &&
-            allUsers[i].password == currentUser.password
-          ) {
-            allUsers[i].cart = [];
-            setCartProducts([]);
-            localStorage.setItem("users", JSON.stringify(allUsers));
-            toast.success(
-              "Your Products will deliver soon! Thank You for shopping..."
-            );
-            break;
-          }
-        }
+      if (response.data.success) {
+        setCartProducts([]);
+        toast.success(response.data.message);
       } else {
-        toast.error("Please add some products to cart before checkout!");
+        toast.error(response.data.message);
       }
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
@@ -130,9 +129,9 @@ const Cart = () => {
           <div id="left-four">
             <div id="products">
               {cartProducts?.length ? (
-                cartProducts.map((prod, index) => (
+                cartProducts.map((prod) => (
                   <>
-                    <div className="product">
+                    <div className="product" key={prod._id}>
                       <div className="product-img">
                         <img src={prod.image} alt="cart-productS" />
                       </div>
@@ -166,7 +165,7 @@ const Cart = () => {
                     </div>
                     <div className="cross">
                       <i
-                        onClick={() => removeCartProduct(index)}
+                        onClick={() => removeCartProduct(prod._id)}
                         class="fa-solid fa-xmark fa-2x"
                         style={{
                           fontSize: "25px",

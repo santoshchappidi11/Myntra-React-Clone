@@ -24,9 +24,6 @@ const AuthProvider = ({ children }) => {
   // console.log(state);
 
   const Login = (userData) => {
-    // localStorage.setItem("current-user", JSON.stringify(userData.user));
-    localStorage.setItem("MyntraUserToken", JSON.stringify(userData.token));
-
     dispatch({
       type: "LOGIN",
       payload: userData.user,

@@ -25,15 +25,23 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/profile" element={<Profile />} />
-        <Route exact path="/mens" element={<Men />} />
-        <Route exact path="/womens" element={<Women />} />
+        <Route exact path="/men" element={<Men />} />
+        <Route exact path="/women" element={<Women />} />
         <Route exact path="/kids" element={<Kids />} />
-        <Route exact path="/home-living" element={<HomeKitchen />} />
+        <Route exact path="/home&kitchen" element={<HomeKitchen />} />
         <Route exact path="/beauty" element={<Beauty />} />
         <Route exact path="/cart" element={<Cart />} />
-        <Route exact path="/single-product/:singleProdId" element={<SingleProduct />} />
+        <Route
+          exact
+          path="/single-product/:singleProdId"
+          element={<SingleProduct />}
+        />
         <Route exact path="/add-product" element={<AddProduct />} />
-        <Route exact path="/edit-product/:editProdId" element={<EditProduct />} />
+        <Route
+          exact
+          path="/edit-product/:editProdId"
+          element={<EditProduct />}
+        />
       </Routes>
       <Footer />
     </div>

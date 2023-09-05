@@ -6,6 +6,7 @@ import {
   Login,
   Register,
   getCurrentUser,
+  updateUserDetails,
 } from "./Controllers/User.controller.js";
 import {
   addComments,
@@ -29,6 +30,7 @@ import {
   addToWishlist,
   getCartProducts,
   removeCartProduct,
+  removeAllCartProducts,
 } from "./Controllers/Buyer.controller.js";
 import {
   blockProduct,
@@ -58,18 +60,20 @@ app.post("/login", Login);
 app.post("/get-current-user", getCurrentUser);
 app.get("/all-products", allProducts);
 app.post("/get-singleproduct-data", getSingleProduct);
+app.post("/update-user-details", updateUserDetails)
 
 // Seller
 app.post("/add-product", checkSeller, addProduct);
 app.get("/get-your-products", checkSeller, getYourProducts);
 app.post("/get-editproduct-data", checkSeller, getEditProductData);
 app.patch("/update-your-product", checkSeller, updateYourProduct);
-app.delete("/delete-your-product", checkSeller, deleteYourProduct);
+app.post("/delete-your-product", checkSeller, deleteYourProduct);
 
 // buyer
 app.post("/add-to-cart", addToCart);
-app.get("/get-cart-products", getCartProducts);
-app.delete("/remove-cart-product", removeCartProduct);
+app.post("/get-cart-products", getCartProducts);
+app.post("/remove-cart-product", removeCartProduct);
+app.post("/remove-all-cart-products", removeAllCartProducts);
 app.post("/add-to-wishlist", addToWishlist);
 app.get("/get-wishlist-products", getWishlistProducts);
 

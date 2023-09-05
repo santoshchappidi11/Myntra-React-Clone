@@ -35,13 +35,6 @@ const SingleProduct = () => {
   }, [state]);
 
   useEffect(() => {
-    // if (state?.products?.length) {
-    //   const newProduct = state?.products?.find(
-    //     (prod) => prod.id == singleProd.id
-    //   );
-    //   setProduct(newProduct);
-    // }
-
     const getSingleProductData = async () => {
       try {
         const response = await api.post("/get-singleproduct-data", {
@@ -62,24 +55,39 @@ const SingleProduct = () => {
     getSingleProductData();
   }, [singleProdId]);
 
-  const addToCart = () => {
-    if (isUserLoggedIn) {
-      const allUsers = JSON.parse(localStorage.getItem("users"));
+  const deleteYourProduct = async (productId) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
 
-      for (let i = 0; i < allUsers.length; i++) {
-        if (
-          allUsers[i].email == currentUser.email &&
-          allUsers[i].password == currentUser.password &&
-          currentUser.role == "Buyer"
-        ) {
-          allUsers[i].cart.push(product);
-          toast.success("Product added to cart!");
-          localStorage.setItem("users", JSON.stringify(allUsers));
-          break;
-        }
+      const response = await api.post("/delete-your-product", {
+        token,
+        productId,
+      });
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        navigateTo(`/${response?.data?.product?.category}`);
+      } else {
+        toast.error(response.data.message);
       }
-    } else {
-      toast.error("Please login to add product to cart!");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const addToCart = async (productId) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
+
+      const response = await api.post("/add-to-cart", { token, productId });
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
@@ -160,7 +168,7 @@ const SingleProduct = () => {
               {!isShowEditBtn && (
                 <button
                   style={{ fontSize: "15px", fontWeight: "bold" }}
-                  onClick={addToCart}
+                  onClick={() => addToCart(product._id)}
                 >
                   <i
                     class="fa-solid fa-bag-shopping fa-lg"
@@ -170,16 +178,29 @@ const SingleProduct = () => {
                 </button>
               )}
               {isShowEditBtn && (
-                <button
-                  style={{ fontSize: "15px", fontWeight: "bold" }}
-                  onClick={() => navigateTo(`/edit-product/${product._id}`)}
-                >
-                  <i
-                    class="fa-regular fa-pen-to-square fa-lg"
-                    style={{ paddingRight: "8px" }}
-                  ></i>
-                  EDIT PRODUCT
-                </button>
+                <>
+                  <button
+                    style={{ fontSize: "15px", fontWeight: "bold" }}
+                    onClick={() => navigateTo(`/edit-product/${product._id}`)}
+                  >
+                    <i
+                      class="fa-regular fa-pen-to-square fa-lg"
+                      style={{ paddingRight: "8px" }}
+                    ></i>
+                    EDIT PRODUCT
+                  </button>
+                  <button
+                    id="delete-btn"
+                    style={{ fontSize: "15px", fontWeight: "bold" }}
+                    onClick={() => deleteYourProduct(product._id)}
+                  >
+                    <i
+                      class="fa-solid fa-trash fa-lg"
+                      style={{ paddingRight: "8px" }}
+                    ></i>
+                    DELETE PRODUCT
+                  </button>
+                </>
               )}
               {!isShowEditBtn && (
                 <button style={{ fontSize: "15px", fontWeight: "bold" }}>

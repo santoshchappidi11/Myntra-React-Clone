@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./EditProduct.css";
 import { toast } from "react-hot-toast";
-import { useParams } from "react-router-dom";
-import { AuthContexts } from "../Context/AuthContext";
+import { useNavigate, useParams } from "react-router-dom";
+// import { AuthContexts } from "../Context/AuthContext";
 import api from "../../ApiConfig/index";
 
 const EditProduct = () => {
+  const navigateTo = useNavigate();
   const { editProdId } = useParams();
-  const { state, contextProducts } = useContext(AuthContexts);
-  const [productsContext, setProductsContext] = useState([]);
+  // const { state } = useContext(AuthContexts);
   const [editProductData, setEditProductData] = useState({
     name: "",
     image: "",
@@ -21,15 +21,6 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
-    // if (state.products?.length) {
-    //   const newProduct = state?.products?.find(
-    //     (prod) => prod.id == singleProduct.id
-    //   );
-    //   setEditProductData(newProduct);
-    // } else {
-    //   setEditProductData({});
-    // }
-
     const getEditProductData = async () => {
       try {
         const token = JSON.parse(localStorage.getItem("MyntraUserToken"));
@@ -39,8 +30,8 @@ const EditProduct = () => {
           productId: editProdId,
         });
 
-        if (response.data.success) {
-          setEditProductData(response.data.product);
+        if (response?.data?.success) {
+          setEditProductData(response?.data?.product);
         } else {
           toast.error(response.data.message);
         }
@@ -49,16 +40,10 @@ const EditProduct = () => {
       }
     };
 
-    getEditProductData();
-  }, [editProdId]);
-
-  useEffect(() => {
-    if (state?.currentUser) {
-      setProductsContext(state?.products);
-    } else {
-      setProductsContext([]);
+    if (editProdId) {
+      getEditProductData();
     }
-  }, [state]);
+  }, [editProdId]);
 
   const handleEditProductSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +65,7 @@ const EditProduct = () => {
 
         if (response.data.success) {
           toast.success(response.data.message);
+          navigateTo(`/${response?.data?.product?.category}`);
         } else {
           toast.error(response.data.message);
         }

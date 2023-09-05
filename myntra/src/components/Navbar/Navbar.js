@@ -47,10 +47,10 @@ const Navbar = () => {
             />
           </div>
           <div id="nav-items">
-            <div onClick={() => navigateTo("/mens")}>Men</div>
-            <div onClick={() => navigateTo("/womens")}>Women</div>
+            <div onClick={() => navigateTo("/men")}>Men</div>
+            <div onClick={() => navigateTo("/women")}>Women</div>
             <div onClick={() => navigateTo("/kids")}>Kids</div>
-            <div onClick={() => navigateTo("/home-living")}>Home & Living</div>
+            <div onClick={() => navigateTo("/home&kitchen")}>Home & Living</div>
             <div onClick={() => navigateTo("/beauty")}>Beauty</div>
             <div>
               Studio

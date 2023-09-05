@@ -25,16 +25,24 @@ const Login = () => {
     e.preventDefault();
 
     if (userData.email && userData.password) {
-      const response = await api.post("/login", {
-        userData,
-      });
-      if (response.data.success) {
-        Login(response.data);
-        toast.success(response.data.message);
-        setUserData({ email: "", password: "" });
-        navigateTo("/");
-      } else {
-        toast.error(response.data.message);
+      try {
+        const response = await api.post("/login", {
+          userData,
+        });
+        if (response.data.success) {
+          localStorage.setItem(
+            "MyntraUserToken",
+            JSON.stringify(response.data.token)
+          );
+          Login(response.data);
+          toast.success(response.data.message);
+          setUserData({ email: "", password: "" });
+          navigateTo("/");
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
     } else {
       toast.error("Please fill all the details!");
