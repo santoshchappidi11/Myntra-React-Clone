@@ -22,6 +22,17 @@ export const addToCart = async (req, res) => {
         .status(404)
         .json({ success: false, message: "user not found!" });
 
+    if (user) {
+      for (let i = 0; i < user.cart.length; i++) {
+        if (user.cart[i] == productId) {
+          return res.status(404).json({
+            success: false,
+            message: "This Product already has been added to cart!",
+          });
+        }
+      }
+    }
+
     user?.cart.push(productId);
 
     await user.save();
@@ -64,7 +75,7 @@ export const getCartProducts = async (req, res) => {
 
     return res.status(404).json({ success: false, message: "User not found!" });
   } catch (error) {
-    return res.status(500).json({ status: "error", message: error });
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 
